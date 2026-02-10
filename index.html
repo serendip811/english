@@ -350,6 +350,309 @@
     100% { transform: translateY(90vh) rotate(720deg); opacity: 0; }
   }
 
+  /* 네비 뱃지 */
+  nav button {
+    position: relative;
+  }
+
+  .nav-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #ff6b6b;
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+    line-height: 1.2;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+
+  .nav-badge.cleared {
+    background: #2ecc71;
+  }
+
+  /* 기록 섹션 */
+  .records-section {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 8px 24px 24px;
+  }
+
+  .records-section h3 {
+    font-size: 1.3rem;
+    color: #2c3e50;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  .records-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .record-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 16px 12px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+  }
+
+  .record-card .record-label {
+    font-size: 0.85rem;
+    color: #999;
+    margin-bottom: 4px;
+  }
+
+  .record-card .record-best {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #aa96da;
+  }
+
+  .record-card .record-best small {
+    font-size: 0.9rem;
+    color: #bbb;
+    font-weight: normal;
+  }
+
+  .history-list {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+    overflow: hidden;
+  }
+
+  .history-list h4 {
+    padding: 12px 16px 8px;
+    color: #2c3e50;
+    font-size: 1rem;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .history-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    border-bottom: 1px solid #f5f5f5;
+    font-size: 0.9rem;
+  }
+
+  .history-row:last-child {
+    border-bottom: none;
+  }
+
+  .history-date {
+    flex: 1;
+    color: #666;
+  }
+
+  .history-scores {
+    display: flex;
+    gap: 12px;
+  }
+
+  .history-scores span {
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+
+  .history-scores .quiz-tag { background: #ffb6b9; color: #2c3e50; }
+  .history-scores .listen-tag { background: #c7b8ea; color: #2c3e50; }
+  .history-scores .word-tag { background: #a8e6cf; color: #2c3e50; }
+  .history-scores .no-record { background: #eee; color: #bbb; }
+
+  .history-empty {
+    padding: 24px;
+    text-align: center;
+    color: #bbb;
+    font-size: 0.95rem;
+  }
+
+  /* 단어 퀴즈 단계 선택 */
+  .level-select {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+
+  .level-select h2 {
+    text-align: center;
+    font-size: 1.6rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
+
+  .level-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .level-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 18px 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-align: left;
+    width: 100%;
+    font-family: inherit;
+  }
+
+  .level-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  }
+
+  .level-num {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .level-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .level-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 2px;
+  }
+
+  .level-preview {
+    font-size: 0.85rem;
+    color: #999;
+  }
+
+  .level-best {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #aa96da;
+    background: #f3eefa;
+    padding: 4px 10px;
+    border-radius: 12px;
+    flex-shrink: 0;
+  }
+
+  /* 단어 학습 */
+  .word-study {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .word-study h2 {
+    font-size: 1.6rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
+
+  .word-study-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .word-study-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 14px 8px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    user-select: none;
+  }
+
+  .word-study-card:hover {
+    transform: scale(1.06);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  }
+
+  .word-study-card:active {
+    transform: scale(0.95);
+  }
+
+  .word-study-card .emoji {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  .word-study-card .word {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-top: 4px;
+  }
+
+  .word-study-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .word-study-actions button {
+    padding: 14px 32px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    color: #2c3e50;
+  }
+
+  .word-study-actions button:hover {
+    transform: scale(1.06);
+  }
+
+  /* 단계 선택 버튼 그룹 */
+  .level-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .level-action-btn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 14px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+    color: #2c3e50;
+  }
+
+  .level-action-btn:hover {
+    transform: scale(1.08);
+  }
+
   /* 반응형 */
   @media (max-width: 600px) {
     .learn-grid {
@@ -364,6 +667,11 @@
     .quiz-prompt { font-size: 5rem; }
     .quiz-option { font-size: 2rem; padding: 16px; }
     nav button { padding: 10px 24px; font-size: 1rem; }
+    .word-study-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .word-study-card .emoji { font-size: 1.6rem; }
+    .word-study-card .word { font-size: 0.8rem; }
+    .level-actions { gap: 6px; }
+    .level-action-btn { padding: 6px 10px; font-size: 0.8rem; }
   }
 </style>
 </head>
@@ -378,6 +686,7 @@
 
 <div id="learn">
   <div class="learn-grid" id="letterGrid"></div>
+  <div class="records-section" id="recordsSection"></div>
 </div>
 
 <div id="quiz"></div>
@@ -392,6 +701,178 @@
 </div>
 
 <script>
+// --- localStorage DB ---
+const DB_KEY = 'alphabet_records';
+
+function dbLoad() {
+  try { return JSON.parse(localStorage.getItem(DB_KEY)) || {}; }
+  catch { return {}; }
+}
+
+function dbSave(data) {
+  localStorage.setItem(DB_KEY, JSON.stringify(data));
+}
+
+function getToday() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+// type: 'quiz' | 'listen' | 'word'
+function saveScore(type, score, total) {
+  const db = dbLoad();
+  const today = getToday();
+
+  if (!db[type]) db[type] = {};
+
+  // 날짜별 기록 — 최고 점수만 유지
+  const prev = db[type][today];
+  if (!prev || score > prev.score) {
+    db[type][today] = { score, total };
+  }
+
+  // 전체 최고 기록
+  const best = db[type]._best;
+  if (!best || score > best.score) {
+    db[type]._best = { score, total };
+  }
+
+  dbSave(db);
+  updateNavBadges();
+}
+
+function getBest(type) {
+  const db = dbLoad();
+  return db[type]?._best || null;
+}
+
+function getTodayScore(type) {
+  const db = dbLoad();
+  return db[type]?.[getToday()] || null;
+}
+
+const WORD_LEVEL_KEYS = ['word_1','word_2','word_3','word_4','word_5'];
+const ALL_SCORE_KEYS = ['quiz','listen',...WORD_LEVEL_KEYS];
+
+// 최근 N일 기록 (날짜 내림차순)
+function getHistory(limit = 10) {
+  const db = dbLoad();
+  const dateSet = new Set();
+  ALL_SCORE_KEYS.forEach(type => {
+    if (db[type]) {
+      Object.keys(db[type]).filter(k => k !== '_best').forEach(d => dateSet.add(d));
+    }
+  });
+  const dates = [...dateSet].sort().reverse().slice(0, limit);
+  return dates.map(date => ({
+    date,
+    quiz: db.quiz?.[date] || null,
+    listen: db.listen?.[date] || null,
+    word: WORD_LEVEL_KEYS.map(k => db[k]?.[date] || null),
+  }));
+}
+
+// 단어 퀴즈: 오늘 클리어한 단계 수
+function getWordClearedCount() {
+  let count = 0;
+  WORD_LEVEL_KEYS.forEach(k => {
+    if (getTodayScore(k)) count++;
+  });
+  return count;
+}
+
+function updateNavBadges() {
+  const navBtns = document.querySelectorAll('nav button');
+  const types = [null, 'quiz', 'listen', 'word_badge']; // 학습은 뱃지 없음
+
+  types.forEach((type, i) => {
+    const btn = navBtns[i];
+    if (!btn || !type) return;
+    // 기존 뱃지 제거
+    const old = btn.querySelector('.nav-badge');
+    if (old) old.remove();
+
+    if (type === 'word_badge') {
+      const cleared = getWordClearedCount();
+      if (cleared > 0) {
+        const badge = document.createElement('span');
+        badge.className = 'nav-badge cleared';
+        badge.textContent = `${cleared}/5`;
+        btn.appendChild(badge);
+      }
+    } else {
+      const today = getTodayScore(type);
+      if (today) {
+        const badge = document.createElement('span');
+        badge.className = 'nav-badge cleared';
+        badge.textContent = `${today.score}/${today.total}`;
+        btn.appendChild(badge);
+      }
+    }
+  });
+}
+
+function renderRecords() {
+  const el = document.getElementById('recordsSection');
+  const bestQuiz = getBest('quiz');
+  const bestListen = getBest('listen');
+  // 단어: 클리어한 단계 수 (best 기준)
+  const wordCleared = WORD_LEVEL_KEYS.filter(k => getBest(k)).length;
+  const history = getHistory(7);
+
+  const fmtBest = (b) => b ? `${b.score}<small>/${b.total}</small>` : '-';
+
+  const fmtDate = (d) => {
+    const [,m,day] = d.split('-');
+    return `${+m}월 ${+day}일`;
+  };
+
+  const fmtTag = (rec, cls) => {
+    if (!rec) return `<span class="no-record">-</span>`;
+    return `<span class="${cls}">${rec.score}/${rec.total}</span>`;
+  };
+
+  // 단어 히스토리: 해당 날짜에 클리어한 단계 수
+  const fmtWordTag = (wordArr) => {
+    const cleared = wordArr.filter(w => w !== null).length;
+    if (cleared === 0) return `<span class="no-record">-</span>`;
+    return `<span class="word-tag">${cleared}/5단계</span>`;
+  };
+
+  el.innerHTML = `
+    <h3>나의 기록</h3>
+    <div class="records-grid">
+      <div class="record-card">
+        <div class="record-label">퀴즈 최고</div>
+        <div class="record-best">${fmtBest(bestQuiz)}</div>
+      </div>
+      <div class="record-card">
+        <div class="record-label">듣기 최고</div>
+        <div class="record-best">${fmtBest(bestListen)}</div>
+      </div>
+      <div class="record-card">
+        <div class="record-label">단어 클리어</div>
+        <div class="record-best">${wordCleared}<small>/5</small></div>
+      </div>
+    </div>
+    <div class="history-list">
+      <h4>최근 기록</h4>
+      ${history.length === 0 ? '<div class="history-empty">아직 기록이 없어요!</div>' :
+        history.map(h => `
+          <div class="history-row">
+            <span class="history-date">${fmtDate(h.date)}</span>
+            <div class="history-scores">
+              ${fmtTag(h.quiz, 'quiz-tag')}
+              ${fmtTag(h.listen, 'listen-tag')}
+              ${fmtWordTag(h.word)}
+            </div>
+          </div>
+        `).join('')
+      }
+    </div>
+  `;
+}
+
 const COLORS = [
   '#FFD3B6','#FFAAA5','#FF8B94','#A8E6CF','#DCEDC1',
   '#FFD3B6','#B5EAD7','#C7CEEA','#E2F0CB','#FFDAC1',
@@ -501,17 +982,22 @@ function pickAnswer(btn, picked, answer) {
 }
 
 function showResult(el) {
+  saveScore('quiz', correctCount, quizQuestions.length);
   const pct = Math.round((correctCount / quizQuestions.length) * 100);
   let msg = '다시 도전해 볼까요?';
   if (pct >= 90) msg = '정말 대단해요! 🎉';
   else if (pct >= 70) msg = '잘했어요! 조금만 더 연습해요!';
   else if (pct >= 50) msg = '좋은 시작이에요! 계속 해봐요!';
 
+  const best = getBest('quiz');
+  const bestText = best ? `최고 기록: ${best.score}/${best.total}` : '';
+
   el.innerHTML = `
     <div class="result">
       <h2>퀴즈 완료!</h2>
       <div class="score">${correctCount} / ${quizQuestions.length}</div>
       <div class="message">${msg}</div>
+      ${bestText ? `<div style="color:#aa96da;font-weight:bold;margin-bottom:16px;">${bestText}</div>` : ''}
       <button onclick="restartQuiz()">다시 하기</button>
     </div>
   `;
@@ -651,17 +1137,22 @@ function pickListenAnswer(btn, picked, answer, answerDisplay) {
 }
 
 function showListenResult(el) {
+  saveScore('listen', listenCorrectCount, listenQuestions.length);
   const pct = Math.round((listenCorrectCount / listenQuestions.length) * 100);
   let msg = '다시 도전해 볼까요?';
   if (pct >= 90) msg = '귀가 아주 좋아요! 🎉';
   else if (pct >= 70) msg = '잘 들었어요! 조금만 더!';
   else if (pct >= 50) msg = '좋은 시작이에요! 다시 들어봐요!';
 
+  const best = getBest('listen');
+  const bestText = best ? `최고 기록: ${best.score}/${best.total}` : '';
+
   el.innerHTML = `
     <div class="result">
       <h2>듣기 퀴즈 완료!</h2>
       <div class="score">${listenCorrectCount} / ${listenQuestions.length}</div>
       <div class="message">${msg}</div>
+      ${bestText ? `<div style="color:#aa96da;font-weight:bold;margin-bottom:16px;">${bestText}</div>` : ''}
       <button onclick="restartListenQuiz()">다시 하기</button>
     </div>
   `;
@@ -675,18 +1166,37 @@ function restartListenQuiz() {
 }
 
 // --- 단어 듣기 퀴즈 ---
-const WORDS = [
-  'SUN','CAT','DOG','RED','BIG','CUP','HAT','BUS','PIG','BOX',
-  'RUN','MOM','DAD','BED','FAN','MAP','PEN','SIT','TOP','HOP',
-  'FOX','HEN','JAM','LOG','NET','VAN','WET','ZIP','BEE','COW',
-  'EGG','FUN','GUM','HUG','ICE','JOY','KEY','LIP','MIX','NUT'
+const WORD_EMOJI = {
+  // 1단계: 동물
+  CAT:'🐱',DOG:'🐶',PIG:'🐷',HEN:'🐔',COW:'🐮',FOX:'🦊',BEE:'🐝',ANT:'🐜',BAT:'🦇',OWL:'🦉',
+  RAM:'🐏',YAK:'🐃',APE:'🦍',EMU:'🐦',COD:'🐟',PUP:'🐕',CUB:'🧸',KIT:'🐈',DOE:'🦌',ELK:'🫎',
+  // 2단계: 음식
+  EGG:'🥚',JAM:'🍯',PIE:'🥧',TEA:'🍵',NUT:'🥜',GUM:'🫧',HAM:'🍖',BUN:'🍞',FIG:'🫐',PEA:'🫛',
+  ICE:'🧊',SOY:'🫘',DIP:'🫕',CUP:'🥤',MUG:'☕',PAN:'🍳',POT:'🍲',JAR:'🏺',CAN:'🥫',BOX:'📦',
+  // 3단계: 사물
+  BED:'🛏️',BUS:'🚌',MAP:'🗺️',PEN:'🖊️',FAN:'🪭',HAT:'🎩',BAG:'👜',KEY:'🔑',DOOR:'🚪',BOOK:'📖',
+  BELL:'🔔',DESK:'🪑',LAMP:'💡',RING:'💍',SOCK:'🧦',SHOE:'👟',BALL:'⚽',KITE:'🪁',BIKE:'🚲',DRUM:'🥁',
+  // 4단계: 자연
+  BLUE:'🔵',PINK:'🩷',GOLD:'🌟',TREE:'🌳',RAIN:'🌧️',SNOW:'❄️',STAR:'⭐',MOON:'🌙',LAKE:'🏞️',SAND:'🏖️',
+  LEAF:'🍃',SEED:'🌱',WIND:'💨',WAVE:'🌊',FIRE:'🔥',ROSE:'🌹',LILY:'🪷',VINE:'🌿',FERN:'☘️',MOSS:'🪨',
+  // 5단계: 긴 단어
+  SMILE:'😊',DANCE:'💃',DREAM:'💭',HAPPY:'😄',SLEEP:'😴',DRINK:'🥛',BREAD:'🍞',CHAIR:'🪑',CLOCK:'⏰',CLOUD:'☁️',
+  GRAPE:'🍇',LEMON:'🍋',MELON:'🍈',NURSE:'👩‍⚕️',PAINT:'🎨',QUEEN:'👑',RIVER:'🏞️',SNAKE:'🐍',TIGER:'🐯',ZEBRA:'🦓',
+};
+
+const WORD_LEVELS = [
+  { level: 1, name: '동물 친구', color: '#a8d8ea', words: ['CAT','DOG','PIG','HEN','COW','FOX','BEE','ANT','BAT','OWL','RAM','YAK','APE','EMU','COD','PUP','CUB','KIT','DOE','ELK'] },
+  { level: 2, name: '맛있는 음식', color: '#ffb6b9', words: ['EGG','JAM','PIE','TEA','NUT','GUM','HAM','BUN','FIG','PEA','ICE','SOY','DIP','CUP','MUG','PAN','POT','JAR','CAN','BOX'] },
+  { level: 3, name: '우리 주변', color: '#aa96da', words: ['BED','BUS','MAP','PEN','FAN','HAT','BAG','KEY','DOOR','BOOK','BELL','DESK','LAMP','RING','SOCK','SHOE','BALL','KITE','BIKE','DRUM'] },
+  { level: 4, name: '색깔과 자연', color: '#a8e6cf', words: ['BLUE','PINK','GOLD','TREE','RAIN','SNOW','STAR','MOON','LAKE','SAND','LEAF','SEED','WIND','WAVE','FIRE','ROSE','LILY','VINE','FERN','MOSS'] },
+  { level: 5, name: '도전! 긴 단어', color: '#ffd3b6', words: ['SMILE','DANCE','DREAM','HAPPY','SLEEP','DRINK','BREAD','CHAIR','CLOCK','CLOUD','GRAPE','LEMON','MELON','NURSE','PAINT','QUEEN','RIVER','SNAKE','TIGER','ZEBRA'] },
 ];
 
+let currentWordLevel = null; // null = 단계 선택 화면
 let wordQuestions = [];
 let wordCurrentQ = 0;
 let wordCorrectCount = 0;
 let wordAnswered = false;
-const WORD_QUIZ_COUNT = 15;
 
 function speakWord(word) {
   speechSynthesis.cancel();
@@ -705,18 +1215,79 @@ function speakWord(word) {
   speechSynthesis.speak(utter);
 }
 
-function generateWordQuiz() {
+function generateWordQuiz(levelIdx) {
+  currentWordLevel = levelIdx;
   wordQuestions = [];
-  const shuffled = [...WORDS].sort(() => Math.random() - 0.5).slice(0, WORD_QUIZ_COUNT);
+  const levelData = WORD_LEVELS[levelIdx];
+  const pool = levelData.words;
+  const shuffled = [...pool].sort(() => Math.random() - 0.5);
   shuffled.forEach(word => {
     const wrongWords = new Set();
     while (wrongWords.size < 3) {
-      const r = WORDS[Math.floor(Math.random() * WORDS.length)];
+      const r = pool[Math.floor(Math.random() * pool.length)];
       if (r !== word) wrongWords.add(r);
     }
     const options = [word, ...wrongWords].sort(() => Math.random() - 0.5);
     wordQuestions.push({ word, options });
   });
+}
+
+function renderWordLevelSelect() {
+  const el = document.getElementById('wordQuiz');
+  el.innerHTML = `
+    <div class="level-select">
+      <h2>단어 퀴즈 단계 선택</h2>
+      <div class="level-cards">
+        ${WORD_LEVELS.map((lv, i) => {
+          const best = getBest('word_' + lv.level);
+          const preview = lv.words.slice(0, 3).map(w => `${WORD_EMOJI[w] || ''} ${w.toLowerCase()}`).join(', ');
+          return `
+            <div class="level-card" style="cursor:default;">
+              <div class="level-num" style="background:${lv.color}">${lv.level}</div>
+              <div class="level-info">
+                <div class="level-name">${lv.name}</div>
+                <div class="level-preview">${preview} ...</div>
+              </div>
+              ${best ? `<div class="level-best">${best.score}/${best.total}</div>` : ''}
+              <div class="level-actions">
+                <button class="level-action-btn" style="background:${lv.color}44;" onclick="renderWordStudy(${i})">📖 학습</button>
+                <button class="level-action-btn" style="background:${lv.color};" onclick="startWordLevel(${i})">✏️ 퀴즈</button>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderWordStudy(levelIdx) {
+  const el = document.getElementById('wordQuiz');
+  const lv = WORD_LEVELS[levelIdx];
+  el.innerHTML = `
+    <div class="word-study">
+      <h2>${lv.name}</h2>
+      <div class="word-study-grid">
+        ${lv.words.map(w => `
+          <div class="word-study-card" onclick="speakWord('${w}')">
+            <div class="emoji">${WORD_EMOJI[w] || ''}</div>
+            <div class="word">${w.toLowerCase()}</div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="word-study-actions">
+        <button style="background:${lv.color};" onclick="startWordLevel(${levelIdx})">✏️ 퀴즈 시작</button>
+        <button style="background:#eee;" onclick="renderWordLevelSelect()">단계 선택</button>
+      </div>
+    </div>
+  `;
+}
+
+function startWordLevel(levelIdx) {
+  wordCurrentQ = 0;
+  wordCorrectCount = 0;
+  generateWordQuiz(levelIdx);
+  renderWordQuiz();
 }
 
 function renderWordQuiz() {
@@ -736,7 +1307,7 @@ function renderWordQuiz() {
     <div class="listen-hint">단어를 듣고 맞는 것을 골라보세요!</div>
     <button class="speaker-btn" id="wordSpeakerBtn" onclick="speakWord('${q.word}')" style="background:linear-gradient(135deg,#a8e6cf,#b5ead7);">🔊</button>
     <div class="quiz-options">
-      ${q.options.map(o => `<button class="quiz-option" style="font-size:2rem;" onclick="pickWordAnswer(this, '${o}', '${q.word}')">${o}</button>`).join('')}
+      ${q.options.map(o => `<button class="quiz-option" style="font-size:1.6rem;" onclick="pickWordAnswer(this, '${o}', '${q.word}')"><span style="font-size:2rem;">${WORD_EMOJI[o] || ''}</span><br>${o.toLowerCase()}</button>`).join('')}
     </div>
   `;
   wordAnswered = false;
@@ -757,7 +1328,7 @@ function pickWordAnswer(btn, picked, answer) {
   } else {
     btn.classList.add('wrong');
     buttons.forEach(b => {
-      if (b.textContent.trim() === answer) b.classList.add('reveal');
+      if (b.textContent.trim() === answer.toLowerCase()) b.classList.add('reveal');
     });
   }
 
@@ -768,18 +1339,30 @@ function pickWordAnswer(btn, picked, answer) {
 }
 
 function showWordResult(el) {
+  const levelNum = WORD_LEVELS[currentWordLevel].level;
+  const levelName = WORD_LEVELS[currentWordLevel].name;
+  saveScore('word_' + levelNum, wordCorrectCount, wordQuestions.length);
   const pct = Math.round((wordCorrectCount / wordQuestions.length) * 100);
   let msg = '다시 도전해 볼까요?';
   if (pct >= 90) msg = '단어 박사! 🎉';
   else if (pct >= 70) msg = '잘했어요! 거의 다 맞혔어요!';
   else if (pct >= 50) msg = '좋아요! 조금만 더 연습해요!';
 
+  const best = getBest('word_' + levelNum);
+  const bestText = best ? `최고 기록: ${best.score}/${best.total}` : '';
+  const hasNext = currentWordLevel < WORD_LEVELS.length - 1;
+
   el.innerHTML = `
     <div class="result">
-      <h2>단어 퀴즈 완료!</h2>
+      <h2>${levelName} 완료!</h2>
       <div class="score">${wordCorrectCount} / ${wordQuestions.length}</div>
       <div class="message">${msg}</div>
-      <button onclick="restartWordQuiz()">다시 하기</button>
+      ${bestText ? `<div style="color:#aa96da;font-weight:bold;margin-bottom:16px;">${bestText}</div>` : ''}
+      <div style="display:flex;flex-direction:column;gap:10px;align-items:center;">
+        <button onclick="restartWordQuiz()">다시 하기</button>
+        ${hasNext ? `<button onclick="startWordLevel(${currentWordLevel + 1})" style="background:#a8e6cf;">다음 단계</button>` : ''}
+        <button onclick="renderWordLevelSelect()" style="background:#a8d8ea;">단계 선택</button>
+      </div>
     </div>
   `;
 }
@@ -787,7 +1370,7 @@ function showWordResult(el) {
 function restartWordQuiz() {
   wordCurrentQ = 0;
   wordCorrectCount = 0;
-  generateWordQuiz();
+  generateWordQuiz(currentWordLevel);
   renderWordQuiz();
 }
 
@@ -803,6 +1386,7 @@ function showLearn() {
   hideAll();
   document.getElementById('learn').style.display = 'block';
   document.querySelectorAll('nav button').forEach((b, i) => b.classList.toggle('active', i === 0));
+  renderRecords();
 }
 
 function showQuiz() {
@@ -829,10 +1413,9 @@ function showWordQuiz() {
   hideAll();
   document.getElementById('wordQuiz').style.display = 'block';
   document.querySelectorAll('nav button').forEach((b, i) => b.classList.toggle('active', i === 3));
-  if (wordQuestions.length === 0) {
-    generateWordQuiz();
-  }
-  renderWordQuiz();
+  currentWordLevel = null;
+  wordQuestions = [];
+  renderWordLevelSelect();
 }
 
 // Service Worker 등록
@@ -842,6 +1425,8 @@ if ('serviceWorker' in navigator) {
 
 // 초기화
 buildGrid();
+renderRecords();
+updateNavBadges();
 </script>
 </body>
 </html>
