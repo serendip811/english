@@ -536,14 +536,30 @@ let listenCurrentQ = 0;
 let listenCorrectCount = 0;
 let listenAnswered = false;
 
+// macOS 여성 영어 음성 우선순위
+const PREFERRED_VOICES = ['Samantha', 'Nicky', 'Kathy', 'Shelley (영어(미국))', 'Flo (영어(미국))'];
+let cachedVoice = null;
+
+function getPreferredVoice() {
+  if (cachedVoice) return cachedVoice;
+  const voices = speechSynthesis.getVoices();
+  cachedVoice =
+    PREFERRED_VOICES.reduce((found, name) => found || voices.find(v => v.name === name), null) ||
+    voices.find(v => v.lang === 'en-US');
+  return cachedVoice;
+}
+
+// 음성 목록 로드 시 캐시 갱신
+speechSynthesis.onvoiceschanged = () => { cachedVoice = null; getPreferredVoice(); };
+
 function speakLetter(ch, callback) {
   speechSynthesis.cancel();
-  // 소문자로 읽어야 "capital ~" 안 붙음
   const utter = new SpeechSynthesisUtterance(ch.toLowerCase());
   utter.lang = 'en-US';
-  utter.rate = 0.8;
-  utter.pitch = 1.1;
+  utter.rate = 0.6;
+  utter.pitch = 1.0;
   utter.volume = 1;
+  utter.voice = getPreferredVoice();
 
   const speakerBtn = document.getElementById('speakerBtn');
   if (speakerBtn) speakerBtn.classList.add('playing');
@@ -666,9 +682,10 @@ function speakWord(word) {
   speechSynthesis.cancel();
   const utter = new SpeechSynthesisUtterance(word.toLowerCase());
   utter.lang = 'en-US';
-  utter.rate = 0.7;
-  utter.pitch = 1.1;
+  utter.rate = 0.6;
+  utter.pitch = 1.0;
   utter.volume = 1;
+  utter.voice = getPreferredVoice();
 
   const btn = document.getElementById('wordSpeakerBtn');
   if (btn) btn.classList.add('playing');
