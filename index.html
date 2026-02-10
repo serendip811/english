@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>알파벳 학습</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Arial Rounded MT Bold', 'Nunito', sans-serif;
+    background: #fef9f0;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* 네비게이션 */
+  nav {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  nav button {
+    padding: 12px 36px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: #fff;
+  }
+
+  nav button:nth-child(1) {
+    background: #a8d8ea;
+    color: #2c3e50;
+  }
+
+  nav button:nth-child(2) {
+    background: #ffb6b9;
+    color: #2c3e50;
+  }
+
+  nav button:nth-child(3) {
+    background: #aa96da;
+    color: #2c3e50;
+  }
+
+  nav button:nth-child(4) {
+    background: #a8e6cf;
+    color: #2c3e50;
+  }
+
+  nav button.active {
+    transform: scale(1.1);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  }
+
+  nav button:hover {
+    transform: scale(1.05);
+  }
+
+  /* 학습 모드 */
+  .learn-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 16px;
+    padding: 24px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .letter-card {
+    aspect-ratio: 1;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    user-select: none;
+    position: relative;
+  }
+
+  .letter-card:hover {
+    transform: scale(1.08);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  }
+
+  .letter-card .upper {
+    font-size: 2.5rem;
+    font-weight: bold;
+    line-height: 1.1;
+  }
+
+  .letter-card .lower {
+    font-size: 1.8rem;
+    opacity: 0.7;
+    line-height: 1.1;
+  }
+
+  /* 확대 오버레이 */
+  .overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .overlay.show {
+    display: flex;
+    animation: fadeIn 0.2s;
+  }
+
+  .overlay-card {
+    border-radius: 32px;
+    padding: 40px 60px;
+    text-align: center;
+    animation: bounceIn 0.4s;
+  }
+
+  .overlay-card .upper {
+    font-size: 8rem;
+    font-weight: bold;
+    line-height: 1.1;
+  }
+
+  .overlay-card .lower {
+    font-size: 5rem;
+    opacity: 0.7;
+  }
+
+  /* 퀴즈 모드 */
+  #quiz, #listenQuiz, #wordQuiz {
+    display: none;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .speaker-btn {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #aa96da, #c7b8ea);
+    cursor: pointer;
+    font-size: 4rem;
+    margin: 20px 0 36px;
+    box-shadow: 0 6px 20px rgba(170,150,218,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: bounceIn 0.4s;
+  }
+
+  .speaker-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 28px rgba(170,150,218,0.5);
+  }
+
+  .speaker-btn:active {
+    transform: scale(0.95);
+  }
+
+  .speaker-btn.playing {
+    animation: pulse 0.6s infinite alternate;
+  }
+
+  @keyframes pulse {
+    from { transform: scale(1); box-shadow: 0 6px 20px rgba(170,150,218,0.4); }
+    to { transform: scale(1.08); box-shadow: 0 10px 32px rgba(170,150,218,0.6); }
+  }
+
+  .listen-hint {
+    font-size: 1.2rem;
+    color: #999;
+    margin-bottom: 12px;
+  }
+
+  .progress-bar {
+    background: #eee;
+    border-radius: 20px;
+    height: 16px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+
+  .progress-bar .fill {
+    height: 100%;
+    background: linear-gradient(90deg, #a8d8ea, #aa96da);
+    border-radius: 20px;
+    transition: width 0.4s;
+  }
+
+  .progress-text {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 24px;
+  }
+
+  .quiz-prompt {
+    font-size: 7rem;
+    font-weight: bold;
+    margin: 20px 0 36px;
+    animation: bounceIn 0.4s;
+  }
+
+  .quiz-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .quiz-option {
+    padding: 20px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .quiz-option:hover {
+    transform: scale(1.06);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  }
+
+  .quiz-option.correct {
+    background: #a8e6cf;
+    animation: bounce 0.5s;
+  }
+
+  .quiz-option.wrong {
+    background: #ffb6b9;
+    animation: shake 0.5s;
+  }
+
+  .quiz-option.reveal {
+    background: #a8e6cf;
+    outline: 4px dashed #2ecc71;
+  }
+
+  /* 결과 화면 */
+  .result {
+    padding: 40px 24px;
+    text-align: center;
+  }
+
+  .result h2 {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-bottom: 16px;
+  }
+
+  .result .score {
+    font-size: 5rem;
+    font-weight: bold;
+    color: #aa96da;
+    margin: 20px 0;
+  }
+
+  .result .message {
+    font-size: 1.4rem;
+    color: #555;
+    margin-bottom: 28px;
+  }
+
+  .result button {
+    padding: 14px 40px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    background: #ffb6b9;
+    color: #2c3e50;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .result button:hover { transform: scale(1.08); }
+
+  /* confetti */
+  .confetti-piece {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    z-index: 300;
+    pointer-events: none;
+    animation: confettiFall 1.2s forwards;
+  }
+
+  /* 애니메이션 */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes bounceIn {
+    0% { transform: scale(0.3); opacity: 0; }
+    50% { transform: scale(1.08); }
+    70% { transform: scale(0.95); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    40% { transform: scale(1.2); }
+    60% { transform: scale(0.95); }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-12px); }
+    40% { transform: translateX(12px); }
+    60% { transform: translateX(-8px); }
+    80% { transform: translateX(8px); }
+  }
+
+  @keyframes confettiFall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(90vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* 반응형 */
+  @media (max-width: 600px) {
+    .learn-grid {
+      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+      gap: 10px;
+      padding: 14px;
+    }
+    .letter-card .upper { font-size: 1.8rem; }
+    .letter-card .lower { font-size: 1.3rem; }
+    .overlay-card .upper { font-size: 5rem; }
+    .overlay-card .lower { font-size: 3rem; }
+    .quiz-prompt { font-size: 5rem; }
+    .quiz-option { font-size: 2rem; padding: 16px; }
+    nav button { padding: 10px 24px; font-size: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <button class="active" onclick="showLearn()">📖 학습</button>
+  <button onclick="showQuiz()">✏️ 퀴즈</button>
+  <button onclick="showListenQuiz()">🔊 듣기</button>
+  <button onclick="showWordQuiz()">📝 단어</button>
+</nav>
+
+<div id="learn">
+  <div class="learn-grid" id="letterGrid"></div>
+</div>
+
+<div id="quiz"></div>
+<div id="listenQuiz"></div>
+<div id="wordQuiz"></div>
+
+<div class="overlay" id="overlay" onclick="closeOverlay()">
+  <div class="overlay-card" id="overlayCard">
+    <div class="upper" id="overlayUpper"></div>
+    <div class="lower" id="overlayLower"></div>
+  </div>
+</div>
+
+<script>
+const COLORS = [
+  '#FFD3B6','#FFAAA5','#FF8B94','#A8E6CF','#DCEDC1',
+  '#FFD3B6','#B5EAD7','#C7CEEA','#E2F0CB','#FFDAC1',
+  '#F3B0C3','#C6DBF0','#FCE4EC','#E8DFF5','#FEE1E8',
+  '#D4F0F0','#CCE2CB','#B6CFB6','#97C1A9','#FCB9AA',
+  '#FFDBCC','#ECEAE4','#A2E1DB','#55CBCD','#ABDEE6',
+  '#CBAACB'
+];
+
+const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+// --- 학습 모드 ---
+function buildGrid() {
+  const grid = document.getElementById('letterGrid');
+  grid.innerHTML = '';
+  letters.forEach((ch, i) => {
+    const card = document.createElement('div');
+    card.className = 'letter-card';
+    card.style.background = COLORS[i];
+    card.innerHTML = `<span class="upper">${ch}</span><span class="lower">${ch.toLowerCase()}</span>`;
+    card.onclick = () => openOverlay(ch, COLORS[i]);
+    grid.appendChild(card);
+  });
+}
+
+function openOverlay(ch, color) {
+  const overlay = document.getElementById('overlay');
+  document.getElementById('overlayCard').style.background = color;
+  document.getElementById('overlayUpper').textContent = ch;
+  document.getElementById('overlayLower').textContent = ch.toLowerCase();
+  overlay.classList.add('show');
+}
+
+function closeOverlay() {
+  document.getElementById('overlay').classList.remove('show');
+}
+
+// --- 퀴즈 모드 ---
+let quizQuestions = [];
+let currentQ = 0;
+let correctCount = 0;
+let answered = false;
+
+function generateQuiz() {
+  quizQuestions = [];
+  const shuffled = [...letters].sort(() => Math.random() - 0.5);
+  shuffled.forEach(ch => {
+    const isUpperPrompt = Math.random() > 0.5;
+    const prompt = isUpperPrompt ? ch : ch.toLowerCase();
+    const answerChar = isUpperPrompt ? ch.toLowerCase() : ch;
+
+    const wrong = new Set();
+    while (wrong.size < 3) {
+      const r = letters[Math.floor(Math.random() * 26)];
+      const w = isUpperPrompt ? r.toLowerCase() : r;
+      if (w !== answerChar) wrong.add(w);
+    }
+
+    const options = [answerChar, ...wrong].sort(() => Math.random() - 0.5);
+    quizQuestions.push({ prompt, answer: answerChar, options });
+  });
+}
+
+function renderQuiz() {
+  const el = document.getElementById('quiz');
+
+  if (currentQ >= quizQuestions.length) {
+    showResult(el);
+    return;
+  }
+
+  const q = quizQuestions[currentQ];
+  const pct = (currentQ / quizQuestions.length) * 100;
+
+  el.innerHTML = `
+    <div class="progress-bar"><div class="fill" style="width:${pct}%"></div></div>
+    <div class="progress-text">${currentQ + 1} / ${quizQuestions.length}</div>
+    <div class="quiz-prompt">${q.prompt}</div>
+    <div class="quiz-options">
+      ${q.options.map((o, i) => `<button class="quiz-option" data-idx="${i}" onclick="pickAnswer(this, '${o}', '${q.answer}')">${o}</button>`).join('')}
+    </div>
+  `;
+  answered = false;
+}
+
+function pickAnswer(btn, picked, answer) {
+  if (answered) return;
+  answered = true;
+
+  const buttons = document.querySelectorAll('.quiz-option');
+
+  if (picked === answer) {
+    correctCount++;
+    btn.classList.add('correct');
+    spawnConfetti();
+  } else {
+    btn.classList.add('wrong');
+    buttons.forEach(b => {
+      if (b.textContent === answer) b.classList.add('reveal');
+    });
+  }
+
+  setTimeout(() => {
+    currentQ++;
+    renderQuiz();
+  }, 1000);
+}
+
+function showResult(el) {
+  const pct = Math.round((correctCount / quizQuestions.length) * 100);
+  let msg = '다시 도전해 볼까요?';
+  if (pct >= 90) msg = '정말 대단해요! 🎉';
+  else if (pct >= 70) msg = '잘했어요! 조금만 더 연습해요!';
+  else if (pct >= 50) msg = '좋은 시작이에요! 계속 해봐요!';
+
+  el.innerHTML = `
+    <div class="result">
+      <h2>퀴즈 완료!</h2>
+      <div class="score">${correctCount} / ${quizQuestions.length}</div>
+      <div class="message">${msg}</div>
+      <button onclick="restartQuiz()">다시 하기</button>
+    </div>
+  `;
+}
+
+function restartQuiz() {
+  currentQ = 0;
+  correctCount = 0;
+  generateQuiz();
+  renderQuiz();
+}
+
+// --- confetti ---
+function spawnConfetti() {
+  const colors = ['#ff6b6b','#ffd93d','#6bcb77','#4d96ff','#ff6bcb','#aa96da'];
+  for (let i = 0; i < 30; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random() * 100 + 'vw';
+    piece.style.top = '-10px';
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.animationDuration = (0.8 + Math.random() * 0.8) + 's';
+    piece.style.animationDelay = (Math.random() * 0.3) + 's';
+    document.body.appendChild(piece);
+    setTimeout(() => piece.remove(), 2000);
+  }
+}
+
+// --- 듣기 퀴즈 모드 ---
+let listenQuestions = [];
+let listenCurrentQ = 0;
+let listenCorrectCount = 0;
+let listenAnswered = false;
+
+function speakLetter(ch, callback) {
+  speechSynthesis.cancel();
+  // 소문자로 읽어야 "capital ~" 안 붙음
+  const utter = new SpeechSynthesisUtterance(ch.toLowerCase());
+  utter.lang = 'en-US';
+  utter.rate = 0.8;
+  utter.pitch = 1.1;
+  utter.volume = 1;
+
+  const speakerBtn = document.getElementById('speakerBtn');
+  if (speakerBtn) speakerBtn.classList.add('playing');
+  utter.onend = () => {
+    if (speakerBtn) speakerBtn.classList.remove('playing');
+    if (callback) callback();
+  };
+  speechSynthesis.speak(utter);
+}
+
+function randomCase(ch) {
+  return Math.random() > 0.5 ? ch.toUpperCase() : ch.toLowerCase();
+}
+
+function generateListenQuiz() {
+  listenQuestions = [];
+  const shuffled = [...letters].sort(() => Math.random() - 0.5);
+  shuffled.forEach(ch => {
+    const wrongLetters = new Set();
+    while (wrongLetters.size < 3) {
+      const r = letters[Math.floor(Math.random() * 26)];
+      if (r !== ch) wrongLetters.add(r);
+    }
+    // 각 보기를 랜덤하게 대문자 또는 소문자로 표시
+    const answerDisplay = randomCase(ch);
+    const wrongDisplays = [...wrongLetters].map(w => randomCase(w));
+    const options = [answerDisplay, ...wrongDisplays].sort(() => Math.random() - 0.5);
+    listenQuestions.push({ letter: ch, answerDisplay, options });
+  });
+}
+
+function renderListenQuiz() {
+  const el = document.getElementById('listenQuiz');
+
+  if (listenCurrentQ >= listenQuestions.length) {
+    showListenResult(el);
+    return;
+  }
+
+  const q = listenQuestions[listenCurrentQ];
+  const pct = (listenCurrentQ / listenQuestions.length) * 100;
+
+  el.innerHTML = `
+    <div class="progress-bar"><div class="fill" style="width:${pct}%"></div></div>
+    <div class="progress-text">${listenCurrentQ + 1} / ${listenQuestions.length}</div>
+    <div class="listen-hint">버튼을 눌러 알파벳을 들어보세요!</div>
+    <button class="speaker-btn" id="speakerBtn" onclick="speakLetter('${q.letter}')">🔊</button>
+    <div class="quiz-options">
+      ${q.options.map(o => `<button class="quiz-option" onclick="pickListenAnswer(this, '${o.toUpperCase()}', '${q.letter}', '${q.answerDisplay}')">${o}</button>`).join('')}
+    </div>
+  `;
+  listenAnswered = false;
+
+  // 자동으로 한 번 읽어주기
+  setTimeout(() => speakLetter(q.letter), 300);
+}
+
+function pickListenAnswer(btn, picked, answer, answerDisplay) {
+  if (listenAnswered) return;
+  listenAnswered = true;
+
+  const buttons = document.querySelectorAll('#listenQuiz .quiz-option');
+
+  if (picked === answer) {
+    listenCorrectCount++;
+    btn.classList.add('correct');
+    spawnConfetti();
+  } else {
+    btn.classList.add('wrong');
+    buttons.forEach(b => {
+      if (b.textContent.trim() === answerDisplay) b.classList.add('reveal');
+    });
+  }
+
+  setTimeout(() => {
+    listenCurrentQ++;
+    renderListenQuiz();
+  }, 1000);
+}
+
+function showListenResult(el) {
+  const pct = Math.round((listenCorrectCount / listenQuestions.length) * 100);
+  let msg = '다시 도전해 볼까요?';
+  if (pct >= 90) msg = '귀가 아주 좋아요! 🎉';
+  else if (pct >= 70) msg = '잘 들었어요! 조금만 더!';
+  else if (pct >= 50) msg = '좋은 시작이에요! 다시 들어봐요!';
+
+  el.innerHTML = `
+    <div class="result">
+      <h2>듣기 퀴즈 완료!</h2>
+      <div class="score">${listenCorrectCount} / ${listenQuestions.length}</div>
+      <div class="message">${msg}</div>
+      <button onclick="restartListenQuiz()">다시 하기</button>
+    </div>
+  `;
+}
+
+function restartListenQuiz() {
+  listenCurrentQ = 0;
+  listenCorrectCount = 0;
+  generateListenQuiz();
+  renderListenQuiz();
+}
+
+// --- 단어 듣기 퀴즈 ---
+const WORDS = [
+  'SUN','CAT','DOG','RED','BIG','CUP','HAT','BUS','PIG','BOX',
+  'RUN','MOM','DAD','BED','FAN','MAP','PEN','SIT','TOP','HOP',
+  'FOX','HEN','JAM','LOG','NET','VAN','WET','ZIP','BEE','COW',
+  'EGG','FUN','GUM','HUG','ICE','JOY','KEY','LIP','MIX','NUT'
+];
+
+let wordQuestions = [];
+let wordCurrentQ = 0;
+let wordCorrectCount = 0;
+let wordAnswered = false;
+const WORD_QUIZ_COUNT = 15;
+
+function speakWord(word) {
+  speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(word.toLowerCase());
+  utter.lang = 'en-US';
+  utter.rate = 0.7;
+  utter.pitch = 1.1;
+  utter.volume = 1;
+
+  const btn = document.getElementById('wordSpeakerBtn');
+  if (btn) btn.classList.add('playing');
+  utter.onend = () => {
+    if (btn) btn.classList.remove('playing');
+  };
+  speechSynthesis.speak(utter);
+}
+
+function generateWordQuiz() {
+  wordQuestions = [];
+  const shuffled = [...WORDS].sort(() => Math.random() - 0.5).slice(0, WORD_QUIZ_COUNT);
+  shuffled.forEach(word => {
+    const wrongWords = new Set();
+    while (wrongWords.size < 3) {
+      const r = WORDS[Math.floor(Math.random() * WORDS.length)];
+      if (r !== word) wrongWords.add(r);
+    }
+    const options = [word, ...wrongWords].sort(() => Math.random() - 0.5);
+    wordQuestions.push({ word, options });
+  });
+}
+
+function renderWordQuiz() {
+  const el = document.getElementById('wordQuiz');
+
+  if (wordCurrentQ >= wordQuestions.length) {
+    showWordResult(el);
+    return;
+  }
+
+  const q = wordQuestions[wordCurrentQ];
+  const pct = (wordCurrentQ / wordQuestions.length) * 100;
+
+  el.innerHTML = `
+    <div class="progress-bar"><div class="fill" style="width:${pct}%"></div></div>
+    <div class="progress-text">${wordCurrentQ + 1} / ${wordQuestions.length}</div>
+    <div class="listen-hint">단어를 듣고 맞는 것을 골라보세요!</div>
+    <button class="speaker-btn" id="wordSpeakerBtn" onclick="speakWord('${q.word}')" style="background:linear-gradient(135deg,#a8e6cf,#b5ead7);">🔊</button>
+    <div class="quiz-options">
+      ${q.options.map(o => `<button class="quiz-option" style="font-size:2rem;" onclick="pickWordAnswer(this, '${o}', '${q.word}')">${o}</button>`).join('')}
+    </div>
+  `;
+  wordAnswered = false;
+
+  setTimeout(() => speakWord(q.word), 300);
+}
+
+function pickWordAnswer(btn, picked, answer) {
+  if (wordAnswered) return;
+  wordAnswered = true;
+
+  const buttons = document.querySelectorAll('#wordQuiz .quiz-option');
+
+  if (picked === answer) {
+    wordCorrectCount++;
+    btn.classList.add('correct');
+    spawnConfetti();
+  } else {
+    btn.classList.add('wrong');
+    buttons.forEach(b => {
+      if (b.textContent.trim() === answer) b.classList.add('reveal');
+    });
+  }
+
+  setTimeout(() => {
+    wordCurrentQ++;
+    renderWordQuiz();
+  }, 1200);
+}
+
+function showWordResult(el) {
+  const pct = Math.round((wordCorrectCount / wordQuestions.length) * 100);
+  let msg = '다시 도전해 볼까요?';
+  if (pct >= 90) msg = '단어 박사! 🎉';
+  else if (pct >= 70) msg = '잘했어요! 거의 다 맞혔어요!';
+  else if (pct >= 50) msg = '좋아요! 조금만 더 연습해요!';
+
+  el.innerHTML = `
+    <div class="result">
+      <h2>단어 퀴즈 완료!</h2>
+      <div class="score">${wordCorrectCount} / ${wordQuestions.length}</div>
+      <div class="message">${msg}</div>
+      <button onclick="restartWordQuiz()">다시 하기</button>
+    </div>
+  `;
+}
+
+function restartWordQuiz() {
+  wordCurrentQ = 0;
+  wordCorrectCount = 0;
+  generateWordQuiz();
+  renderWordQuiz();
+}
+
+// --- 탭 전환 ---
+function hideAll() {
+  document.getElementById('learn').style.display = 'none';
+  document.getElementById('quiz').style.display = 'none';
+  document.getElementById('listenQuiz').style.display = 'none';
+  document.getElementById('wordQuiz').style.display = 'none';
+}
+
+function showLearn() {
+  hideAll();
+  document.getElementById('learn').style.display = 'block';
+  document.querySelectorAll('nav button').forEach((b, i) => b.classList.toggle('active', i === 0));
+}
+
+function showQuiz() {
+  hideAll();
+  document.getElementById('quiz').style.display = 'block';
+  document.querySelectorAll('nav button').forEach((b, i) => b.classList.toggle('active', i === 1));
+  if (quizQuestions.length === 0) {
+    generateQuiz();
+  }
+  renderQuiz();
+}
+
+function showListenQuiz() {
+  hideAll();
+  document.getElementById('listenQuiz').style.display = 'block';
+  document.querySelectorAll('nav button').forEach((b, i) => b.classList.toggle('active', i === 2));
+  if (listenQuestions.length === 0) {
+    generateListenQuiz();
+  }
+  renderListenQuiz();
+}
+
+function showWordQuiz() {
+  hideAll();
+  document.getElementById('wordQuiz').style.display = 'block';
+  document.querySelectorAll('nav button').forEach((b, i) => b.classList.toggle('active', i === 3));
+  if (wordQuestions.length === 0) {
+    generateWordQuiz();
+  }
+  renderWordQuiz();
+}
+
+// 초기화
+buildGrid();
+</script>
+</body>
+</html>
