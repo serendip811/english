@@ -72,6 +72,7 @@
 - [x] Reduce the revealed Practice sentence typography a third time by lowering both size and weight after screenshot review still read as oversized
 - [x] Remove redundant sentence-card badges and status labels from Practice so the line card only shows content and actions
 - [x] Replace the existing GitHub repository contents with the current web app and publish the web build to `main`
+- [x] Add GitHub Pages deployment config for the Vite web app and publish it from `main`
 
 ## Review
 - Generated the app project with XcodeGen and built a SwiftUI + SwiftData iOS 17 app scaffold.
@@ -138,3 +139,4 @@
 - Lowered the revealed sentence weight as well as size, because the extra-bold setting was still making the line feel oversized even after the previous scale reduction.
 - Removed the extra sentence-card labels such as `Shadowing Line` and `Revealed`, since the card already communicates state through the transcript toggle and content visibility.
 - Replaced the legacy remote repository contents by cloning `main`, clearing the old files, copying this web app into the repo, and pushing the new web project back to GitHub.
+- Added a GitHub Pages Actions workflow and switched Vite's production `base` to `/english/`, so the built asset paths match the repository Pages URL and deploy cleanly from `main`.

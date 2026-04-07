@@ -1,7 +1,8 @@
 import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react-swc";
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
+  base: command === "build" ? "/english/" : "/",
   plugins: [react()],
   server: {
     host: true,
@@ -10,4 +11,4 @@ export default defineConfig({
   test: {
     environment: "node"
   }
-});
+}));

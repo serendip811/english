@@ -37,3 +37,4 @@
 - After switching to a fixed phone-width shell, re-evaluate typography again in-context. A sentence size that looks balanced on a wider canvas can still feel oversized once the whole app is framed like a mobile screen.
 - If a sentence still feels too large after shrinking font-size, reduce weight too. Extra-bold display weights can make dialogue copy read much larger than its numeric font-size suggests.
 - Practice sentence cards should not repeat obvious status labels. If reveal/hide state is already clear from the toggle and the presence of text, remove decorative badges like `Shadowing Line` or `Revealed`.
+- For Vite apps deployed to GitHub Pages as a project site, production `base` must match `/<repo>/`. If that is missing, asset URLs will resolve to `/assets/...` and the deployed page will load broken files.
