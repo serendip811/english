@@ -1,0 +1,140 @@
+# Shadowing Web Migration
+
+## Checklist
+- [x] Create SwiftUI iOS project scaffold with XcodeGen and task tracking docs
+- [x] Implement domain models, persistence models, and local file storage
+- [x] Implement YouTube URL parsing, watch page extraction, caption parsing, audio download, and transcription fallback
+- [x] Implement sentence segmentation and optional Korean subtitle hooks
+- [x] Build Import, Library, Practice, and full-context preview UI
+- [x] Implement precise looping playback with `AVAudioEngine + AVAudioPlayerNode`
+- [x] Add unit tests for URL parsing and sentence segmentation
+- [x] Verify with `xcodegen`, `xcodebuild build`, and `xcodebuild test`
+- [x] Pivot main UX from arbitrary URL import to curated lesson selection
+- [x] Bundle lesson metadata and subtitle segments inside the app
+- [x] Support sentence/range looping for bundled YouTube lessons without local audio downloads
+- [x] Verify the curated-library flow with build/tests
+- [x] Upgrade stale existing imports when opening a curated lesson with the same YouTube video ID
+- [x] Add a regression test for stale unsupported imports reopening curated lessons
+- [x] Verify the stale-import upgrade fix with build/tests
+- [x] Fix the embedded YouTube player to identify the app correctly in WKWebView
+- [x] Surface embedded-player failure reasons in the Practice UI instead of raw YouTube overlays
+- [x] Verify the embedded-player fix with build/tests
+- [x] Remove the empty placeholder `videoId` from embedded YouTube player initialization to prevent spurious code-2 failures
+- [x] Add a regression test for embed HTML that must not initialize with an empty `videoId`
+- [x] Verify the code-2 embed fix with build/tests
+- [x] Simplify embedded YouTube `cue/load` commands and sanitize timing parameters to avoid remaining code-2 playback failures
+- [x] Gate automatic Korean translation behind Translation framework availability so unsupported devices do not launch translation UI/errors
+- [x] Verify the embed-command and translation-availability fixes with build/tests
+- [x] Clamp playback end times against overlapping next-segment starts so sentence loops do not include the following dialogue
+- [x] Add regression tests for effective playback end-time calculation with overlapping caption segments
+- [x] Verify the playback timing clamp with build/tests
+- [x] Resection the bundled Peppa Pig lesson into shorter, more natural shadowing units
+- [x] Add a bundled-lesson quality regression test for oversized practice segments
+- [x] Verify the bundled lesson resegmentation with build/tests
+- [x] Replace proportional bundled subsegment timings with timings anchored to real transcript snippets for the curated lesson
+- [x] Verify the curated lesson timing realignment with build/tests
+- [x] Simplify Lessons to a plain list-only catalog UI
+- [x] Remove nonessential explanatory copy from Practice and keep the controls compact
+- [x] Hide unsupported imports from Library instead of surfacing them to learners
+- [x] Verify the UI simplification with build/tests
+- [x] Add bookmarkable sentence state and repurpose Library to show bookmarked sentences across lessons
+- [x] Add recent-lesson quick access at the top of Lessons above the full lesson list
+- [x] Make Practice sentence selection secondary by hiding the full segment list behind an explicit action
+- [x] Pin the main Practice controls to a fixed bottom bar and increase their tap target size
+- [x] Add configurable auto-advance repeat counts for single-sentence practice
+- [x] Verify the bookmark, recent-lesson, and auto-advance changes with build/tests
+- [x] Replace range `Stepper` controls with direct sentence selection for loop start/end
+- [x] Make range playback advance sentence-by-sentence so the visible sentence follows the active scene
+- [x] Verify the range UX and playback sync fixes with build/tests
+- [x] Remove the oversized Practice top title area so the learning content starts higher on screen
+- [x] Verify the Practice top-spacing cleanup with build/tests
+- [x] Make range playback always restart from the `From` sentence after editing range bounds
+- [x] Auto-scroll the segment picker sheet to the current/range-selected sentence when it opens
+- [x] Verify the range-start and picker-scroll fixes with build/tests
+- [x] Create a web app scaffold in this repository and move lesson data into the web build
+- [x] Implement Lessons, Practice, and Library tabs in the web app with localStorage-backed session state
+- [x] Implement YouTube IFrame API playback for sentence looping, range looping, and auto-next repeat counts
+- [x] Port bookmark, recent-lesson, and sentence/range picker behavior into the web UI
+- [x] Add web regression tests for loop range and auto-advance helpers
+- [x] Verify the web app with install/build/test commands
+- [x] Remove the iOS/Xcode project after the web app is verified
+- [x] Fix web manual sentence loop playback so `Play Loop` keeps repeating indefinitely until stopped
+- [x] Add regression tests for embedded segment monitor loop persistence
+- [x] Keep `Previous`/`Next` sentence navigation aligned with the actual playback target while a sentence is already playing
+- [x] Defer sentence-navigation cue/play commands until the new selected sentence index is committed in web state
+- [x] Make `Play Loop` restart from the currently visible sentence inside a selected range instead of always jumping back to `From`
+- [x] Restyle the web app to match the provided editorial reference with a fixed top bar, hero lesson card, storybook sentence card, and pill-shaped loop controls
+- [x] Add a hidden-by-default transcript toggle in Practice so learners can listen first and reveal the sentence on demand
+- [x] Compress the hidden transcript state in Practice so the concealed sentence card does not consume oversized vertical space
+- [x] Constrain the full web app to a centered mobile-width frame so desktop still presents a phone-sized practice layout
+- [x] Reduce the revealed Practice sentence typography so the line reads as dialogue instead of an oversized poster headline
+- [x] Reduce the revealed Practice sentence typography again after mobile-frame review showed the copy still read too large
+- [x] Reduce the revealed Practice sentence typography a third time by lowering both size and weight after screenshot review still read as oversized
+- [x] Remove redundant sentence-card badges and status labels from Practice so the line card only shows content and actions
+- [x] Replace the existing GitHub repository contents with the current web app and publish the web build to `main`
+
+## Review
+- Generated the app project with XcodeGen and built a SwiftUI + SwiftData iOS 17 app scaffold.
+- Implemented on-device YouTube URL normalization, watch-page parsing, caption import, direct audio download, and Speech fallback transcription.
+- Implemented sentence-level practice UX with single-loop and range-loop playback using `AVAudioEngine + AVAudioPlayerNode`.
+- Added iOS 18 conditional Korean translation caching in Practice via `TranslationSession`, while keeping iOS 17 behavior safe.
+- Hardened YouTube player-response parsing for pages that expose multiple `ytInitialPlayerResponse` assignments, including a leading `null`, and added import-path diagnostics with `OSLog`.
+- Added a fallback from caption parsing failures to on-device transcription, plus a regression test covering empty caption payloads on `tfuEUuvk8Qs`.
+- Staged downloaded audio into extension-correct temp files before transcription and preferred `audio/mp4` formats over less compatible alternatives to avoid AVFoundation open failures.
+- Hardened direct-media fallback to reject blocked or unreadable downloads before Speech transcription, and surfaced those cases as unsupported imports instead of raw AVFoundation failures.
+- Added a fallback from watch-page `MWEB` streaming data to `youtubei/v1/player` `IOS`/`ANDROID` client contexts when signed media URLs are blocked with `403`, plus a regression test for the recovery path.
+- Added bounded range-chunk downloading for `googlevideo` audio URLs that reject whole-file fetches, plus a regression test for `403 full download -> 206 ranged chunks`.
+- Pivoted the main UX away from arbitrary user URL import and into a bundled lesson catalog that learners select from the app.
+- Added a bundled lesson catalog resource and a catalog loader, with one curated Peppa Pig lesson whose subtitle timing is preloaded into the app.
+- Reworked practice playback to support YouTube embed looping for curated lessons, so sentence and range repetition no longer depend on downloading local audio.
+- Updated the Lessons, Library, and Practice tabs so curated lesson selection is the primary path and existing local-audio imports still remain compatible.
+- Added a catalog decoding unit test.
+- Fixed the curated-lesson open flow so an existing record with the same YouTube video ID is resynced to the bundled lesson definition instead of reopening stale unsupported import state.
+- Added a regression test that covers `unsupported imported record -> bundled lesson reopen` and verifies the stale audio/error fields are cleared.
+- Updated the embedded YouTube player to use an app-identifier origin/base URL in `WKWebView`, matching YouTube's documented embedded-player identity requirements for mobile WebViews.
+- Added embedded-player error bridging so Practice can replace raw YouTube overlays with a readable app message when embed playback is blocked.
+- Added unit tests for embed origin generation, HTML injection, and player-error messaging.
+- Fixed the embedded-player bootstrap HTML so `YT.Player` is not initialized with an empty placeholder `videoId`, preventing app-caused YouTube `code 2` failures before the real lesson command runs.
+- Added a regression assertion that the generated embed HTML must not contain `videoId: ""`.
+- Simplified embedded YouTube playback commands to use the basic `cueVideoById` and `loadVideoById` signatures, enabled JS API explicitly, and sanitized loop timing values before sending them to the player.
+- Gated automatic Korean translation behind `Translation.LanguageAvailability`, so unsupported devices do not launch the translation extension on every Practice load.
+- Clamped practice playback end times against the next segment's start time when curated caption timings overlap, so later sentence loops stop before the following line bleeds in.
+- Added regression tests for overlap trimming, no-overlap preservation, and minimum-duration fallback in sentence playback timing.
+- Resegmented the bundled Peppa Pig lesson from coarse caption chunks into shorter shadowing units, and cleaned the displayed English with capitalization and punctuation.
+- Removed bundled practice noise such as `[Music]` and other stage-direction fragments from the curated lesson data.
+- Added a bundled-lesson quality test that enforces short practice-sized segments and rejects bracketed stage directions in the catalog.
+- Replaced the curated lesson's fake proportionally redistributed timings with start/end times anchored to real transcript snippets, so early segments now begin on the correct spoken audio instead of drifting inside a larger caption window.
+- Simplified the learner-facing UI by reducing Lessons to a compact list, trimming explanatory copy from Practice, and hiding unsupported records from Library and default Practice selection.
+- Added sentence bookmarks, turned Library into a cross-lesson bookmark list, surfaced the most recently practiced lesson at the top of Lessons, and moved dense segment navigation into an explicit picker sheet.
+- Pinned the main Practice transport controls to a fixed bottom bar with larger tap targets, and added single-sentence auto-advance after a configurable 1-10 repeat count.
+- Reworked Practice range mode so learners pick start/end sentences directly from the segment list instead of tapping steppers, and made embedded range playback advance one sentence at a time so the visible sentence stays in sync with the active scene.
+- Added loop-range helper tests and embed HTML regression checks for one-shot segment playback commands.
+- Removed the large `Practice` navigation title so the lesson content starts higher and wastes less vertical space on small screens.
+- Fixed range selection so changing `From`/`To` still anchors playback at the `From` sentence, and made the segment picker auto-scroll to the relevant current/range row on open.
+- Verified with:
+  - `xcodegen generate`
+  - `xcodebuild -project Shadowing.xcodeproj -scheme Shadowing -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 16' build`
+  - `xcodebuild -project Shadowing.xcodeproj -scheme Shadowing -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 16' test`
+- Rebuilt the product as a Vite + React + TypeScript web app with lesson data loaded from `src/data/lesson-catalog.json`.
+- Implemented Lessons, Library, and Practice tabs in the web app with `localStorage`-backed recent lesson, bookmark, and session state.
+- Ported sentence looping, range playback, `From`/`To` sentence picking, and configurable auto-next repeat counts onto the YouTube IFrame API.
+- Added web regression tests for range playback anchoring, wraparound, and single-sentence auto-advance rules.
+- Removed the old SwiftUI/Xcode project after the web app was verified so the repository now reflects the web-only direction.
+- Verified the web app with:
+  - `npm install`
+  - `npm test`
+  - `npm run build`
+- Fixed web `Play Loop` so embedded YouTube manual single-sentence playback keeps rearming its end monitor across repeated loops instead of stopping after the first boundary hit.
+- Extracted the embedded segment completion watcher into a reusable `playerLoop` helper and added regression tests for both infinite manual looping and one-shot segment completion.
+- Changed Practice sentence navigation so `Previous` and `Next` continue playback from the newly selected sentence when single-sentence playback is already active, instead of only updating the visible sentence while the player remains anchored to the old one.
+- Moved sentence-navigation playback issuance behind a committed-selection effect so web Practice no longer races between stale pre-navigation indices and the new visible sentence when `Next` or `Previous` is tapped during playback.
+- Updated range playback restart rules so manual sentence navigation inside a selected range changes the immediate restart anchor, while explicit `From`/`To` edits still normalize the range bounds themselves.
+- Reworked the web visual system around the provided reference: Plus Jakarta Sans typography, warm surface palette, fixed translucent top/bottom bars, hero continue card, thumbnail lesson rows, editorial practice card, and a large centered loop button.
+- Added per-lesson transcript visibility state to Practice, defaulting sentences to hidden and letting learners reveal or hide the current line on demand without losing the rest of the practice session state.
+- Condensed the hidden transcript state into a compact row with a shorter reveal action and tighter spacing so the concealed card reads like a status strip instead of a full-height content block.
+- Reframed the entire web UI around a single centered mobile-width shell, including the fixed top bar, bottom loop controls, and tab bar, so desktop no longer spreads the experience across a wide canvas.
+- Reduced the revealed sentence card typography and subtitle spacing so longer lines stay readable without dominating the whole practice screen.
+- Tightened the revealed sentence scale one more step after checking it inside the final mobile-width shell, bringing the line closer to a reading size than a display headline.
+- Lowered the revealed sentence weight as well as size, because the extra-bold setting was still making the line feel oversized even after the previous scale reduction.
+- Removed the extra sentence-card labels such as `Shadowing Line` and `Revealed`, since the card already communicates state through the transcript toggle and content visibility.
+- Replaced the legacy remote repository contents by cloning `main`, clearing the old files, copying this web app into the repo, and pushing the new web project back to GitHub.

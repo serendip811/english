@@ -1,0 +1,445 @@
+{
+  "lessons": [
+    {
+      "youtubeVideoID": "tfuEUuvk8Qs",
+      "title": "Peppa Pig Full Episodes |Lost in the Fog #96",
+      "sourceURL": "https://www.youtube.com/watch?v=tfuEUuvk8Qs",
+      "duration": 312.076,
+      "summary": "Bundled transcript for curated shadowing practice.",
+      "segments": [
+        {
+          "index": 0,
+          "startTime": 3.52,
+          "endTime": 8.32,
+          "textEn": "I'm Peppa Pig.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 1,
+          "startTime": 5.6,
+          "endTime": 10.559,
+          "textEn": "This is my little brother George.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 2,
+          "startTime": 8.32,
+          "endTime": 14.679,
+          "textEn": "This is Mummy Pig, and this is Daddy Pig.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 3,
+          "startTime": 23.519,
+          "endTime": 29.599,
+          "textEn": "Peppa and George are going to the playground today.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 4,
+          "startTime": 27.199,
+          "endTime": 33.92,
+          "textEn": "Should we drive to the playground? No.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 5,
+          "startTime": 29.599,
+          "endTime": 35.61,
+          "textEn": "Let's walk. Look, it's just over there.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 6,
+          "startTime": 33.92,
+          "endTime": 38.0,
+          "textEn": "The playground is quite close.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 7,
+          "startTime": 38.0,
+          "endTime": 43.12,
+          "textEn": "Okay, let's walk this way, everyone.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 8,
+          "startTime": 43.76,
+          "endTime": 52.0,
+          "textEn": "We're going to the playground. We're going to the playground.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 9,
+          "startTime": 52.0,
+          "endTime": 59.6,
+          "textEn": "Oh, where has the sky gone?",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 10,
+          "startTime": 55.92,
+          "endTime": 62.96,
+          "textEn": "Oh, don't worry, Peppa. It's just fog.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 11,
+          "startTime": 59.6,
+          "endTime": 67.76,
+          "textEn": "What fog? Fog is a cloud that is on the ground instead of in the sky.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 12,
+          "startTime": 69.6,
+          "endTime": 74.88,
+          "textEn": "It's very thick fog. I can't see a thing.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 13,
+          "startTime": 74.88,
+          "endTime": 83.6,
+          "textEn": "Maybe we should go back home. Yes, we'll go to the playground another day.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 14,
+          "startTime": 81.28,
+          "endTime": 86.4,
+          "textEn": "It is too foggy to find the playground.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 15,
+          "startTime": 83.6,
+          "endTime": 89.119,
+          "textEn": "So Peppa and George have to go back home.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 16,
+          "startTime": 86.4,
+          "endTime": 95.92,
+          "textEn": "Now, which way is home? Are we lost, Daddy Pig?",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 17,
+          "startTime": 92.0,
+          "endTime": 98.479,
+          "textEn": "Don't worry. I know exactly where we are. This way.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 18,
+          "startTime": 98.96,
+          "endTime": 103.2,
+          "textEn": "Who put that tree there? Daddy Pig has walked into a tree.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 19,
+          "startTime": 103.2,
+          "endTime": 111.36,
+          "textEn": "Are you okay, Daddy Pig? Yes, I'm fine. This way.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 20,
+          "startTime": 111.36,
+          "endTime": 116.88,
+          "textEn": "Daddy Pig, do you know where you're going?",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 21,
+          "startTime": 114.32,
+          "endTime": 119.36,
+          "textEn": "Yes, of course I do.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 22,
+          "startTime": 116.88,
+          "endTime": 124.64,
+          "textEn": "I don't think we'll ever find our house again.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 23,
+          "startTime": 121.68,
+          "endTime": 126.96,
+          "textEn": "I'm sure we will, Peppa. We're only in our garden.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 24,
+          "startTime": 127.04,
+          "endTime": 134.64,
+          "textEn": "Oh, it's the ducks.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 25,
+          "startTime": 130.0,
+          "endTime": 138.239,
+          "textEn": "Hello, Mrs Duck. Have you lost your pond?",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 26,
+          "startTime": 134.64,
+          "endTime": 142.48,
+          "textEn": "We're lost too. We are not lost. I know exactly where we are.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 27,
+          "startTime": 140.239,
+          "endTime": 146.8,
+          "textEn": "See you later, ducks. Good luck finding your pond.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 28,
+          "startTime": 147.76,
+          "endTime": 153.04,
+          "textEn": "Daddy Pig has found the duck pond.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 29,
+          "startTime": 150.64,
+          "endTime": 160.64,
+          "textEn": "That's lucky. Yes, what a stroke of luck.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 30,
+          "startTime": 156.48,
+          "endTime": 164.08,
+          "textEn": "Daddy, Mrs Duck says thank you. You're most welcome, Mrs Duck.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 31,
+          "startTime": 168.4,
+          "endTime": 174.879,
+          "textEn": "Now let's find our house. I'm sure it's this way.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 32,
+          "startTime": 173.44,
+          "endTime": 181.92,
+          "textEn": "Hello. Did you hear something? Yes, I thought I heard someone say hello.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 33,
+          "startTime": 180.08,
+          "endTime": 186.319,
+          "textEn": "It's Mummy Rabbit with Rebecca and Richard.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 34,
+          "startTime": 183.36,
+          "endTime": 190.08,
+          "textEn": "Hello, Peppa. We're lost.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 35,
+          "startTime": 186.319,
+          "endTime": 191.8,
+          "textEn": "Hello, Rebecca. We're lost too.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 36,
+          "startTime": 191.8,
+          "endTime": 195.3,
+          "textEn": "We wanted to go to the playground.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 37,
+          "startTime": 195.3,
+          "endTime": 199.12,
+          "textEn": "So did we, but it's too foggy to get there. Come on.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 38,
+          "startTime": 196.4,
+          "endTime": 201.2,
+          "textEn": "Everyone back to our house until the fog clears.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 39,
+          "startTime": 201.2,
+          "endTime": 205.8,
+          "textEn": "Daddy Pig, do you know where you're going?",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 40,
+          "startTime": 205.8,
+          "endTime": 209.48,
+          "textEn": "Yes, of course I do. This way.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 41,
+          "startTime": 206.64,
+          "endTime": 211.68,
+          "textEn": "Yes, Daddy Pig.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 42,
+          "startTime": 211.68,
+          "endTime": 216.72,
+          "textEn": "I found our little hill. We'll soon be home.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 43,
+          "startTime": 218.08,
+          "endTime": 222.56,
+          "textEn": "Our house should be just about here.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 44,
+          "startTime": 222.56,
+          "endTime": 227.92,
+          "textEn": "Daddy Pig has found a ladder.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 45,
+          "startTime": 225.2,
+          "endTime": 232.319,
+          "textEn": "That's strange. We don't have a ladder in our garden.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 46,
+          "startTime": 230.239,
+          "endTime": 235.519,
+          "textEn": "Goodness me.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 47,
+          "startTime": 232.319,
+          "endTime": 241.2,
+          "textEn": "Can you see where we are, Daddy Pig? Yes, I can.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 48,
+          "startTime": 237.84,
+          "endTime": 244.4,
+          "textEn": "Daddy, where are we? Why don't you have a look? Okay.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 49,
+          "startTime": 245.12,
+          "endTime": 254.0,
+          "textEn": "Wow. Wow. I can see everything again. The fog is going away.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 50,
+          "startTime": 266.56,
+          "endTime": 271.68,
+          "textEn": "Daddy, Mummy.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 51,
+          "startTime": 269.04,
+          "endTime": 272.2,
+          "textEn": "We're at the playground.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 52,
+          "startTime": 272.2,
+          "endTime": 278.2,
+          "textEn": "Well, that's lucky, but I thought we were trying to get home.",
+          "textKo": null,
+          "sourceType": "captions"
+        },
+        {
+          "index": 53,
+          "startTime": 278.2,
+          "endTime": 285.91,
+          "textEn": "So did I. Maybe we did get a bit lost after all.",
+          "textKo": null,
+          "sourceType": "captions"
+        }
+      ]
+    }
+  ]
+}
