@@ -48,6 +48,7 @@ function loadYouTubeAPI(): Promise<any> {
 }
 
 interface YouTubePlayerProps {
+  initialVideoId: string;
   command: PlayerCommand;
   onPlayerError: (code: number) => void;
   onIterationCompleted: () => void;
@@ -63,6 +64,7 @@ export interface YouTubePlayerHandle {
 
 export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>(function YouTubePlayer(
   {
+    initialVideoId,
     command,
     onPlayerError,
     onIterationCompleted
@@ -88,15 +90,15 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
       playerRef.current = new YT.Player(containerRef.current, {
         width: "100%",
         height: "100%",
+        videoId: initialVideoId,
         playerVars: {
-          enablejsapi: 1,
-          origin: window.location.origin,
           playsinline: 1,
           controls: 1
         },
         events: {
           onReady: () => {
             readyRef.current = true;
+            activeVideoIdRef.current = initialVideoId;
             applyPendingCommand();
           },
           onError: (event: { data: number }) => {
@@ -116,7 +118,7 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
       }
       playerRef.current = null;
     };
-  }, [onPlayerError]);
+  }, [initialVideoId, onPlayerError]);
 
   useEffect(() => {
     if (command.sequence === appliedSequenceRef.current) {

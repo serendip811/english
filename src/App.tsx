@@ -685,6 +685,7 @@ function App(): JSX.Element {
             ) : (
               <YouTubePlayer
                 ref={playerHandleRef}
+                initialVideoId={selectedLesson.youtubeVideoID}
                 command={playerCommand}
                 onPlayerError={(code) =>
                   setPlayerError(
