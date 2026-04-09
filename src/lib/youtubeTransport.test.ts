@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
+  createEmbedURL,
   createCueOptions,
   createLoadOptions,
   choosePlaybackTransport,
+  YOUTUBE_EMBED_BASE_URL,
   shouldReuseLoadedVideo,
   YOUTUBE_IFRAME_ALLOW,
   YOUTUBE_PLAYER_STATE
@@ -60,5 +62,16 @@ describe("choosePlaybackTransport", () => {
 describe("YOUTUBE_IFRAME_ALLOW", () => {
   it("includes autoplay permission for cross-origin playback", () => {
     expect(YOUTUBE_IFRAME_ALLOW).toContain("autoplay");
+  });
+});
+
+describe("createEmbedURL", () => {
+  it("creates an iframe src with enablejsapi and playsinline", () => {
+    const url = createEmbedURL("tfuEUuvk8Qs", "https://serendip811.github.io");
+
+    expect(url.startsWith(`${YOUTUBE_EMBED_BASE_URL}/tfuEUuvk8Qs?`)).toBe(true);
+    expect(url).toContain("enablejsapi=1");
+    expect(url).toContain("playsinline=1");
+    expect(url).toContain("origin=https%3A%2F%2Fserendip811.github.io");
   });
 });

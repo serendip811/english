@@ -149,3 +149,4 @@
 - Simplified iframe bootstrap on mobile by creating the player with the current lesson `videoId` up front and removing extra constructor parameters that were not needed for `YT.Player`.
 - Route same-video playback by current YouTube player state so Safari can use `loadVideoById` from `cued/unstarted` states while still using fast `seekTo` jumps during active playback.
 - Explicitly set an autoplay-capable `allow` policy on the YouTube iframe and surface `onAutoplayBlocked` separately so Safari permission failures are visible instead of looking like dead controls.
+- Replace API-created iframe insertion with a pre-rendered YouTube iframe that already has `enablejsapi=1`, `origin`, and `allow="autoplay"` at creation time for Safari.

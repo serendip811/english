@@ -17,10 +17,25 @@ export const YOUTUBE_PLAYER_STATE = {
 export type YouTubePlaybackTransport = "seek" | "load";
 export const YOUTUBE_IFRAME_ALLOW =
   "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+export const YOUTUBE_EMBED_BASE_URL = "https://www.youtube.com/embed";
 
 export interface YouTubeQueueOptions {
   videoId: string;
   startSeconds: number;
+}
+
+export function createEmbedURL(videoId: string, origin?: string): string {
+  const params = new URLSearchParams({
+    enablejsapi: "1",
+    playsinline: "1",
+    controls: "1"
+  });
+
+  if (origin) {
+    params.set("origin", origin);
+  }
+
+  return `${YOUTUBE_EMBED_BASE_URL}/${videoId}?${params.toString()}`;
 }
 
 function normalizeStartSeconds(startTime: number): number {

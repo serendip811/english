@@ -3,6 +3,7 @@ import type { PlayerCommand, PlayerCommandInput } from "../lib/types";
 import { startSegmentLoopMonitor } from "../lib/playerLoop";
 import {
   choosePlaybackTransport,
+  createEmbedURL,
   createCueOptions,
   createLoadOptions,
   shouldReuseLoadedVideo,
@@ -76,7 +77,7 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
   }: YouTubePlayerProps,
   ref
 ): JSX.Element {
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLIFrameElement | null>(null);
   const playerRef = useRef<any>(null);
   const readyRef = useRef(false);
   const pendingCommandRef = useRef<PlayerCommand | null>(null);
@@ -84,6 +85,8 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
   const stopMonitorRef = useRef<(() => void) | null>(null);
   const activeVideoIdRef = useRef<string | null>(null);
   const playerStateRef = useRef<number>(YOUTUBE_PLAYER_STATE.UNSTARTED);
+  const embedOrigin = typeof window !== "undefined" ? window.location.origin : "";
+  const embedSrc = createEmbedURL(initialVideoId, embedOrigin);
 
   useEffect(() => {
     let isMounted = true;
@@ -94,13 +97,6 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
       }
 
       playerRef.current = new YT.Player(containerRef.current, {
-        width: "100%",
-        height: "100%",
-        videoId: initialVideoId,
-        playerVars: {
-          playsinline: 1,
-          controls: 1
-        },
         events: {
           onReady: () => {
             readyRef.current = true;
@@ -259,7 +255,16 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
 
   return (
     <div className="player-frame">
-      <div ref={containerRef} className="player-embed" />
+      <iframe
+        key={initialVideoId}
+        ref={containerRef}
+        className="player-embed"
+        title="YouTube player"
+        src={embedSrc}
+        allow={YOUTUBE_IFRAME_ALLOW}
+        allowFullScreen
+        referrerPolicy="strict-origin-when-cross-origin"
+      />
     </div>
   );
 });
