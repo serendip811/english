@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import lessonCatalog from "./data/lesson-catalog.json";
 import { SegmentPickerModal } from "./components/SegmentPickerModal";
-import { YouTubePlayer } from "./components/YouTubePlayer";
+import { YouTubePlayer, type YouTubePlayerHandle } from "./components/YouTubePlayer";
 import {
   autoAdvanceDecision,
   clampIndex,
@@ -54,6 +54,7 @@ function App(): JSX.Element {
     index: number;
   } | null>(null);
   const commandSequenceRef = useRef(0);
+  const playerHandleRef = useRef<YouTubePlayerHandle | null>(null);
 
   const selectedLesson = useMemo(
     () => lessons.find((lesson) => lesson.youtubeVideoID === selectedLessonId) ?? null,
@@ -157,7 +158,14 @@ function App(): JSX.Element {
     setPendingSentenceSelection(null);
   }, [pendingSentenceSelection, selectedLesson, currentIndex, loopMode, autoAdvanceRepeatCount]);
 
-  function issueCommand(command: PlayerCommandInput): void {
+  function issueCommand(
+    command: PlayerCommandInput,
+    options?: { preferImmediate?: boolean }
+  ): void {
+    if (options?.preferImmediate && playerHandleRef.current?.runCommand(command)) {
+      return;
+    }
+
     commandSequenceRef.current += 1;
     setPlayerCommand({
       sequence: commandSequenceRef.current,
@@ -284,7 +292,7 @@ function App(): JSX.Element {
       }))
     );
 
-    issuePlaybackForIndex(startIndex);
+    issuePlaybackForIndex(startIndex, { preferImmediate: true });
   }
 
   function handleStop(): void {
@@ -294,7 +302,7 @@ function App(): JSX.Element {
     issueCommand({ kind: "stop" });
   }
 
-  function issuePlaybackForIndex(index: number): void {
+  function issuePlaybackForIndex(index: number, options?: { preferImmediate?: boolean }): void {
     if (!selectedLesson) {
       return;
     }
@@ -311,14 +319,14 @@ function App(): JSX.Element {
         videoId: selectedLesson.youtubeVideoID,
         startTime: nextSegment.startTime,
         endTime: effectivePlaybackEndTime(selectedLesson.segments, nextIndex)
-      });
+      }, options);
     } else {
       issueCommand({
         kind: "playSegment",
         videoId: selectedLesson.youtubeVideoID,
         startTime: nextSegment.startTime,
         endTime: effectivePlaybackEndTime(selectedLesson.segments, nextIndex)
-      });
+      }, options);
     }
 
     setIsPlaying(true);
@@ -362,7 +370,7 @@ function App(): JSX.Element {
       flushSync(() => {
         applySelection();
       });
-      issuePlaybackForIndex(nextIndex);
+      issuePlaybackForIndex(nextIndex, { preferImmediate: true });
       return;
     }
 
@@ -676,6 +684,7 @@ function App(): JSX.Element {
               </div>
             ) : (
               <YouTubePlayer
+                ref={playerHandleRef}
                 command={playerCommand}
                 onPlayerError={(code) =>
                   setPlayerError(

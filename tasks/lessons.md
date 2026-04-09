@@ -39,3 +39,4 @@
 - Practice sentence cards should not repeat obvious status labels. If reveal/hide state is already clear from the toggle and the presence of text, remove decorative badges like `Shadowing Line` or `Revealed`.
 - For Vite apps deployed to GitHub Pages as a project site, production `base` must match `/<repo>/`. If that is missing, asset URLs will resolve to `/assets/...` and the deployed page will load broken files.
 - For iframe-based media on the web, autoplay that must continue from a button press should stay inside the original click gesture when possible. If playback is deferred into a later `useEffect`, the browser can treat it as non-user-initiated and require an extra manual tap.
+- If React state propagation still sits between a mobile Safari tap and iframe playback, a synchronous state flush alone may not be enough. Provide an imperative player API for gesture-sensitive commands like play/next/previous so the iframe call happens directly in the tap flow.

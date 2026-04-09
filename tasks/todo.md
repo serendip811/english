@@ -74,6 +74,7 @@
 - [x] Replace the existing GitHub repository contents with the current web app and publish the web build to `main`
 - [x] Add GitHub Pages deployment config for the Vite web app and publish it from `main`
 - [x] Keep Next/Previous autoplay inside the click gesture so iframe playback does not require an extra manual tap
+- [x] Add an imperative YouTube player command path so mobile Safari can honor user-triggered playback without requiring an extra iframe tap
 
 ## Review
 - Generated the app project with XcodeGen and built a SwiftUI + SwiftData iOS 17 app scaffold.
@@ -142,3 +143,4 @@
 - Replaced the legacy remote repository contents by cloning `main`, clearing the old files, copying this web app into the repo, and pushing the new web project back to GitHub.
 - Added a GitHub Pages Actions workflow and switched Vite's production `base` to `/english/`, so the built asset paths match the repository Pages URL and deploy cleanly from `main`.
 - Moved sentence-navigation autoplay back into the actual button click flow using a synchronous state flush, so the YouTube iframe keeps the browser gesture context and does not wait for an extra tap inside the player.
+- Refactored the embedded player to expose an imperative command handle, and routed user-triggered play/navigation actions through that direct path so mobile Safari does not lose the gesture while commands cross React state boundaries.

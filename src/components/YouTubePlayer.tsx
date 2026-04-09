@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import type { PlayerCommand } from "../lib/types";
+import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import type { PlayerCommand, PlayerCommandInput } from "../lib/types";
 import { startSegmentLoopMonitor } from "../lib/playerLoop";
 
 declare global {
@@ -48,11 +48,22 @@ interface YouTubePlayerProps {
   onIterationCompleted: () => void;
 }
 
-export function YouTubePlayer({
-  command,
-  onPlayerError,
-  onIterationCompleted
-}: YouTubePlayerProps): JSX.Element {
+type SegmentPlaybackCommand =
+  | Extract<PlayerCommand, { kind: "playLoop" | "playSegment" }>
+  | Extract<PlayerCommandInput, { kind: "playLoop" | "playSegment" }>;
+
+export interface YouTubePlayerHandle {
+  runCommand: (command: PlayerCommandInput) => boolean;
+}
+
+export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>(function YouTubePlayer(
+  {
+    command,
+    onPlayerError,
+    onIterationCompleted
+  }: YouTubePlayerProps,
+  ref
+): JSX.Element {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const playerRef = useRef<any>(null);
   const readyRef = useRef(false);
@@ -114,7 +125,11 @@ export function YouTubePlayer({
     stopMonitorRef.current = null;
   }
 
-  function runSegment(commandToRun: Extract<PlayerCommand, { kind: "playLoop" | "playSegment" }>): void {
+  function canExecuteImmediately(): boolean {
+    return Boolean(readyRef.current && playerRef.current);
+  }
+
+  function runSegment(commandToRun: SegmentPlaybackCommand): void {
     clearPlaybackTimer();
 
     const player = playerRef.current;
@@ -145,18 +160,13 @@ export function YouTubePlayer({
     });
   }
 
-  function applyPendingCommand(): void {
+  function executeCommand(commandToRun: PlayerCommand | PlayerCommandInput): void {
     const player = playerRef.current;
-    const pendingCommand = pendingCommandRef.current;
-
-    if (!readyRef.current || !player || !pendingCommand) {
+    if (!player) {
       return;
     }
 
-    appliedSequenceRef.current = pendingCommand.sequence;
-    pendingCommandRef.current = null;
-
-    switch (pendingCommand.kind) {
+    switch (commandToRun.kind) {
       case "idle":
         return;
       case "stop":
@@ -165,13 +175,37 @@ export function YouTubePlayer({
         return;
       case "cue":
         clearPlaybackTimer();
-        player.cueVideoById(pendingCommand.videoId, pendingCommand.startTime, "large");
+        player.cueVideoById(commandToRun.videoId, commandToRun.startTime, "large");
         return;
       case "playLoop":
       case "playSegment":
-        runSegment(pendingCommand);
+        runSegment(commandToRun);
         return;
     }
+  }
+
+  useImperativeHandle(ref, () => ({
+    runCommand(commandToRun: PlayerCommandInput): boolean {
+      if (!canExecuteImmediately()) {
+        return false;
+      }
+
+      pendingCommandRef.current = null;
+      executeCommand(commandToRun);
+      return true;
+    }
+  }));
+
+  function applyPendingCommand(): void {
+    const pendingCommand = pendingCommandRef.current;
+
+    if (!canExecuteImmediately() || !pendingCommand) {
+      return;
+    }
+
+    appliedSequenceRef.current = pendingCommand.sequence;
+    pendingCommandRef.current = null;
+    executeCommand(pendingCommand);
   }
 
   return (
@@ -179,4 +213,4 @@ export function YouTubePlayer({
       <div ref={containerRef} className="player-embed" />
     </div>
   );
-}
+});
