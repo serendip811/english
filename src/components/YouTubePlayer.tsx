@@ -1,7 +1,11 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import type { PlayerCommand, PlayerCommandInput } from "../lib/types";
 import { startSegmentLoopMonitor } from "../lib/playerLoop";
-import { shouldReuseLoadedVideo } from "../lib/youtubeTransport";
+import {
+  createCueOptions,
+  createLoadOptions,
+  shouldReuseLoadedVideo
+} from "../lib/youtubeTransport";
 
 declare global {
   interface Window {
@@ -157,7 +161,7 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
       player.seekTo(loopStart, true);
       player.playVideo();
     } else {
-      player.loadVideoById(commandToRun.videoId, loopStart, "large");
+      player.loadVideoById(createLoadOptions(commandToRun.videoId, loopStart));
       activeVideoIdRef.current = commandToRun.videoId;
     }
 
@@ -194,7 +198,7 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
           player.pauseVideo();
           player.seekTo(commandToRun.startTime, true);
         } else {
-          player.cueVideoById(commandToRun.videoId, commandToRun.startTime, "large");
+          player.cueVideoById(createCueOptions(commandToRun.videoId, commandToRun.startTime));
           activeVideoIdRef.current = commandToRun.videoId;
         }
         return;
