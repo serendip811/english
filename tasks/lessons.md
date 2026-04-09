@@ -49,3 +49,4 @@
 - For curated lesson QA, a mismatch on one sentence often comes from a dialogue boundary, not a whole timing drift. When two adjacent segments feel off, first rebalance the boundary between them before rewriting larger parts of the lesson.
 - If the user says a sentence ends with the first syllables of the next line, adjust the earlier segment's end boundary first. Late end-times are often the real issue even when the next segment's text looks correct.
 - When a short spoken phrase like `This way.` feels misplaced, do not only slide timings. Check whether the phrase belongs to the neighboring sentence unit and rebalance the text grouping before touching wider ranges.
+- After the text grouping is fixed, keep checking for leading-syllable leaks. A segment can still feel wrong because the next line begins too late, even if the words are grouped into the right sentence unit.

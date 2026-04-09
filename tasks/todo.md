@@ -153,3 +153,4 @@
 - Retune bundled lesson segments 19 and 20 so the spoken line boundary matches the Daddy Pig exchange more naturally.
 - Pull the tree-line segment boundary earlier so the following `Are you okay` dialogue does not leak into the end of the previous sentence.
 - Rebalance the `Are you okay / Yes, I'm fine. This way / Daddy Pig, do you know...` exchange so `This way` lands on the correct spoken unit.
+- Pull the `Are you okay` boundary slightly earlier so `Yes, I'm fine` no longer leaks into the previous segment.
