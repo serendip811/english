@@ -77,7 +77,8 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
   }: YouTubePlayerProps,
   ref
 ): JSX.Element {
-  const containerRef = useRef<HTMLIFrameElement | null>(null);
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
+  const iframeIdRef = useRef(`youtube-player-${Math.random().toString(36).slice(2)}`);
   const playerRef = useRef<any>(null);
   const readyRef = useRef(false);
   const pendingCommandRef = useRef<PlayerCommand | null>(null);
@@ -85,18 +86,33 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
   const stopMonitorRef = useRef<(() => void) | null>(null);
   const activeVideoIdRef = useRef<string | null>(null);
   const playerStateRef = useRef<number>(YOUTUBE_PLAYER_STATE.UNSTARTED);
+  const onPlayerErrorRef = useRef(onPlayerError);
+  const onAutoplayBlockedRef = useRef(onAutoplayBlocked);
+  const onIterationCompletedRef = useRef(onIterationCompleted);
   const embedOrigin = typeof window !== "undefined" ? window.location.origin : "";
   const embedSrc = createEmbedURL(initialVideoId, embedOrigin);
+
+  useEffect(() => {
+    onPlayerErrorRef.current = onPlayerError;
+  }, [onPlayerError]);
+
+  useEffect(() => {
+    onAutoplayBlockedRef.current = onAutoplayBlocked;
+  }, [onAutoplayBlocked]);
+
+  useEffect(() => {
+    onIterationCompletedRef.current = onIterationCompleted;
+  }, [onIterationCompleted]);
 
   useEffect(() => {
     let isMounted = true;
 
     loadYouTubeAPI().then((YT) => {
-      if (!isMounted || !containerRef.current) {
+      if (!isMounted || !iframeRef.current) {
         return;
       }
 
-      playerRef.current = new YT.Player(containerRef.current, {
+      playerRef.current = new YT.Player(iframeIdRef.current, {
         events: {
           onReady: () => {
             readyRef.current = true;
@@ -107,13 +123,13 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
             applyPendingCommand();
           },
           onAutoplayBlocked: () => {
-            onAutoplayBlocked();
+            onAutoplayBlockedRef.current();
           },
           onStateChange: (event: { data: number }) => {
             playerStateRef.current = event.data;
           },
           onError: (event: { data: number }) => {
-            onPlayerError(event.data);
+            onPlayerErrorRef.current(event.data);
           }
         }
       });
@@ -130,7 +146,7 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
       }
       playerRef.current = null;
     };
-  }, [initialVideoId, onAutoplayBlocked, onPlayerError]);
+  }, [initialVideoId]);
 
   useEffect(() => {
     if (command.sequence === appliedSequenceRef.current) {
@@ -195,7 +211,7 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
         playVideo: () => playerRef.current.playVideo(),
         pauseVideo: () => playerRef.current.pauseVideo()
       },
-      onIterationCompleted
+      onIterationCompleted: () => onIterationCompletedRef.current()
     });
   }
 
@@ -257,7 +273,8 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
     <div className="player-frame">
       <iframe
         key={initialVideoId}
-        ref={containerRef}
+        id={iframeIdRef.current}
+        ref={iframeRef}
         className="player-embed"
         title="YouTube player"
         src={embedSrc}
