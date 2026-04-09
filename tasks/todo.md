@@ -152,3 +152,4 @@
 - Replace API-created iframe insertion with a pre-rendered YouTube iframe that already has `enablejsapi=1`, `origin`, and `allow="autoplay"` at creation time for Safari.
 - Retune bundled lesson segments 19 and 20 so the spoken line boundary matches the Daddy Pig exchange more naturally.
 - Pull the tree-line segment boundary earlier so the following `Are you okay` dialogue does not leak into the end of the previous sentence.
+- Rebalance the `Are you okay / Yes, I'm fine. This way / Daddy Pig, do you know...` exchange so `This way` lands on the correct spoken unit.
