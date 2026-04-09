@@ -151,3 +151,4 @@
 - Explicitly set an autoplay-capable `allow` policy on the YouTube iframe and surface `onAutoplayBlocked` separately so Safari permission failures are visible instead of looking like dead controls.
 - Replace API-created iframe insertion with a pre-rendered YouTube iframe that already has `enablejsapi=1`, `origin`, and `allow="autoplay"` at creation time for Safari.
 - Retune bundled lesson segments 19 and 20 so the spoken line boundary matches the Daddy Pig exchange more naturally.
+- Pull the tree-line segment boundary earlier so the following `Are you okay` dialogue does not leak into the end of the previous sentence.
