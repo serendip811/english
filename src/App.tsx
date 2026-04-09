@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import lessonCatalog from "./data/lesson-catalog.json";
 import { SegmentPickerModal } from "./components/SegmentPickerModal";
 import { YouTubePlayer } from "./components/YouTubePlayer";
@@ -344,18 +345,30 @@ function App(): JSX.Element {
     }
 
     const nextIndex = clampIndex(index, selectedLesson.segments.length);
-    setStorage((previousStorage) =>
-      updateLessonSession(previousStorage, selectedLesson, (session) => ({
-        ...session,
-        lastPracticedSegmentIndex: nextIndex,
-        loopStartIndex: session.loopMode === "single" ? nextIndex : session.loopStartIndex,
-        loopEndIndex: session.loopMode === "single" ? nextIndex : session.loopEndIndex,
-        lastPracticedAt: new Date().toISOString()
-      }))
-    );
+    const applySelection = (): void => {
+      setStorage((previousStorage) =>
+        updateLessonSession(previousStorage, selectedLesson, (session) => ({
+          ...session,
+          lastPracticedSegmentIndex: nextIndex,
+          loopStartIndex: session.loopMode === "single" ? nextIndex : session.loopStartIndex,
+          loopEndIndex: session.loopMode === "single" ? nextIndex : session.loopEndIndex,
+          lastPracticedAt: new Date().toISOString()
+        }))
+      );
+    };
 
+    if (options?.autoplay) {
+      setPendingSentenceSelection(null);
+      flushSync(() => {
+        applySelection();
+      });
+      issuePlaybackForIndex(nextIndex);
+      return;
+    }
+
+    applySelection();
     setPendingSentenceSelection({
-      kind: options?.autoplay ? "play" : "cue",
+      kind: "cue",
       index: nextIndex
     });
   }
