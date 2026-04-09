@@ -1,6 +1,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import type { PlayerCommand, PlayerCommandInput } from "../lib/types";
 import { startSegmentLoopMonitor } from "../lib/playerLoop";
+import { shouldReuseLoadedVideo } from "../lib/youtubeTransport";
 
 declare global {
   interface Window {
@@ -70,6 +71,7 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
   const pendingCommandRef = useRef<PlayerCommand | null>(null);
   const appliedSequenceRef = useRef(-1);
   const stopMonitorRef = useRef<(() => void) | null>(null);
+  const activeVideoIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -83,6 +85,8 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
         width: "100%",
         height: "100%",
         playerVars: {
+          enablejsapi: 1,
+          origin: window.location.origin,
           playsinline: 1,
           controls: 1
         },
@@ -102,6 +106,7 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
       isMounted = false;
       clearPlaybackTimer();
       readyRef.current = false;
+      activeVideoIdRef.current = null;
       if (playerRef.current?.destroy) {
         playerRef.current.destroy();
       }
@@ -129,6 +134,10 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
     return Boolean(readyRef.current && playerRef.current);
   }
 
+  function isCurrentVideo(videoId: string): boolean {
+    return shouldReuseLoadedVideo(activeVideoIdRef.current, videoId);
+  }
+
   function runSegment(commandToRun: SegmentPlaybackCommand): void {
     clearPlaybackTimer();
 
@@ -144,7 +153,13 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
       ? Math.max(loopStart + 0.05, commandToRun.endTime)
       : loopStart + 0.05;
 
-    player.loadVideoById(commandToRun.videoId, loopStart, "large");
+    if (isCurrentVideo(commandToRun.videoId)) {
+      player.seekTo(loopStart, true);
+      player.playVideo();
+    } else {
+      player.loadVideoById(commandToRun.videoId, loopStart, "large");
+      activeVideoIdRef.current = commandToRun.videoId;
+    }
 
     stopMonitorRef.current = startSegmentLoopMonitor({
       kind: commandToRun.kind,
@@ -175,7 +190,13 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
         return;
       case "cue":
         clearPlaybackTimer();
-        player.cueVideoById(commandToRun.videoId, commandToRun.startTime, "large");
+        if (isCurrentVideo(commandToRun.videoId)) {
+          player.pauseVideo();
+          player.seekTo(commandToRun.startTime, true);
+        } else {
+          player.cueVideoById(commandToRun.videoId, commandToRun.startTime, "large");
+          activeVideoIdRef.current = commandToRun.videoId;
+        }
         return;
       case "playLoop":
       case "playSegment":

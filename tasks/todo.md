@@ -144,3 +144,4 @@
 - Added a GitHub Pages Actions workflow and switched Vite's production `base` to `/english/`, so the built asset paths match the repository Pages URL and deploy cleanly from `main`.
 - Moved sentence-navigation autoplay back into the actual button click flow using a synchronous state flush, so the YouTube iframe keeps the browser gesture context and does not wait for an extra tap inside the player.
 - Refactored the embedded player to expose an imperative command handle, and routed user-triggered play/navigation actions through that direct path so mobile Safari does not lose the gesture while commands cross React state boundaries.
+- Reused the already loaded YouTube iframe video for same-lesson sentence jumps on mobile Safari instead of reloading it with `loadVideoById` on every command.
