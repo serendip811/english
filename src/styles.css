@@ -497,6 +497,19 @@ a {
   line-height: 1.5;
 }
 
+.practice-blocked-note {
+  padding: 14px 18px;
+  border-radius: 18px;
+  background: rgba(0, 96, 204, 0.08);
+  color: var(--on-surface-variant);
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+.practice-blocked-note p {
+  margin: 0;
+}
+
 .practice-meta-row {
   display: flex;
   align-items: center;

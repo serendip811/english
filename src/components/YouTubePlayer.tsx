@@ -6,6 +6,7 @@ import {
   createCueOptions,
   createLoadOptions,
   shouldReuseLoadedVideo,
+  YOUTUBE_IFRAME_ALLOW,
   YOUTUBE_PLAYER_STATE
 } from "../lib/youtubeTransport";
 
@@ -53,6 +54,7 @@ interface YouTubePlayerProps {
   initialVideoId: string;
   command: PlayerCommand;
   onPlayerError: (code: number) => void;
+  onAutoplayBlocked: () => void;
   onIterationCompleted: () => void;
 }
 
@@ -69,6 +71,7 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
     initialVideoId,
     command,
     onPlayerError,
+    onAutoplayBlocked,
     onIterationCompleted
   }: YouTubePlayerProps,
   ref
@@ -102,7 +105,13 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
           onReady: () => {
             readyRef.current = true;
             activeVideoIdRef.current = initialVideoId;
+            const iframe = playerRef.current?.getIframe?.();
+            iframe?.setAttribute("allow", YOUTUBE_IFRAME_ALLOW);
+            iframe?.setAttribute("allowfullscreen", "true");
             applyPendingCommand();
+          },
+          onAutoplayBlocked: () => {
+            onAutoplayBlocked();
           },
           onStateChange: (event: { data: number }) => {
             playerStateRef.current = event.data;
@@ -125,7 +134,7 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
       }
       playerRef.current = null;
     };
-  }, [initialVideoId, onPlayerError]);
+  }, [initialVideoId, onAutoplayBlocked, onPlayerError]);
 
   useEffect(() => {
     if (command.sequence === appliedSequenceRef.current) {

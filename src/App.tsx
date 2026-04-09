@@ -46,6 +46,7 @@ function App(): JSX.Element {
   const [pickerOpen, setPickerOpen] = useState(false);
   const [pickerMode, setPickerMode] = useState<SegmentPickerMode>("current");
   const [playerError, setPlayerError] = useState<string | null>(null);
+  const [playerAutoplayBlocked, setPlayerAutoplayBlocked] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [completedLoopIterations, setCompletedLoopIterations] = useState(0);
   const [playerCommand, setPlayerCommand] = useState<PlayerCommand>({ sequence: 0, kind: "idle" });
@@ -131,6 +132,7 @@ function App(): JSX.Element {
     setCompletedLoopIterations(0);
     setIsPlaying(false);
     setPlayerError(null);
+    setPlayerAutoplayBlocked(false);
 
     if (!selectedLesson || !currentSegment) {
       issueCommand({ kind: "stop" });
@@ -187,6 +189,7 @@ function App(): JSX.Element {
 
     setSelectedLessonId(lesson.youtubeVideoID);
     setPlayerError(null);
+    setPlayerAutoplayBlocked(false);
     setCompletedLoopIterations(0);
     setIsPlaying(false);
     setPendingSentenceSelection(null);
@@ -299,6 +302,7 @@ function App(): JSX.Element {
     setCompletedLoopIterations(0);
     setIsPlaying(false);
     setPendingSentenceSelection(null);
+    setPlayerAutoplayBlocked(false);
     issueCommand({ kind: "stop" });
   }
 
@@ -687,6 +691,10 @@ function App(): JSX.Element {
                 ref={playerHandleRef}
                 initialVideoId={selectedLesson.youtubeVideoID}
                 command={playerCommand}
+                onAutoplayBlocked={() => {
+                  setPlayerAutoplayBlocked(true);
+                  setIsPlaying(false);
+                }}
                 onPlayerError={(code) =>
                   setPlayerError(
                     code === 101 || code === 150 || code === 152
@@ -698,6 +706,12 @@ function App(): JSX.Element {
               />
             )}
           </section>
+
+          {playerAutoplayBlocked ? (
+            <section className="practice-blocked-note">
+              <p>Safari blocked scripted playback. Tap the video once, then use the controls again.</p>
+            </section>
+          ) : null}
 
           <section className="practice-meta-row">
             <div className="practice-meta-copy">

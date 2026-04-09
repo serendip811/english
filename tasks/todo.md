@@ -148,3 +148,4 @@
 - Switched iframe `cueVideoById` and `loadVideoById` calls to documented object payloads instead of passing the legacy quality argument that could trigger embed error 2 on mobile.
 - Simplified iframe bootstrap on mobile by creating the player with the current lesson `videoId` up front and removing extra constructor parameters that were not needed for `YT.Player`.
 - Route same-video playback by current YouTube player state so Safari can use `loadVideoById` from `cued/unstarted` states while still using fast `seekTo` jumps during active playback.
+- Explicitly set an autoplay-capable `allow` policy on the YouTube iframe and surface `onAutoplayBlocked` separately so Safari permission failures are visible instead of looking like dead controls.

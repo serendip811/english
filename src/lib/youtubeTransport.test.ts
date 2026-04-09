@@ -4,6 +4,7 @@ import {
   createLoadOptions,
   choosePlaybackTransport,
   shouldReuseLoadedVideo,
+  YOUTUBE_IFRAME_ALLOW,
   YOUTUBE_PLAYER_STATE
 } from "./youtubeTransport";
 
@@ -53,5 +54,11 @@ describe("choosePlaybackTransport", () => {
   it("seeks when the same video is already in an active playback lifecycle", () => {
     expect(choosePlaybackTransport("aaa", "aaa", YOUTUBE_PLAYER_STATE.PLAYING)).toBe("seek");
     expect(choosePlaybackTransport("aaa", "aaa", YOUTUBE_PLAYER_STATE.PAUSED)).toBe("seek");
+  });
+});
+
+describe("YOUTUBE_IFRAME_ALLOW", () => {
+  it("includes autoplay permission for cross-origin playback", () => {
+    expect(YOUTUBE_IFRAME_ALLOW).toContain("autoplay");
   });
 });

@@ -15,6 +15,8 @@ export const YOUTUBE_PLAYER_STATE = {
 } as const;
 
 export type YouTubePlaybackTransport = "seek" | "load";
+export const YOUTUBE_IFRAME_ALLOW =
+  "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
 
 export interface YouTubeQueueOptions {
   videoId: string;
