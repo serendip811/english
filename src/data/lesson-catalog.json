@@ -162,16 +162,16 @@
         {
           "index": 19,
           "startTime": 103.2,
-          "endTime": 111.36,
-          "textEn": "Are you okay, Daddy Pig? Yes, I'm fine. This way.",
+          "endTime": 108.56,
+          "textEn": "Are you okay, Daddy Pig? Yes, I'm fine.",
           "textKo": null,
           "sourceType": "captions"
         },
         {
           "index": 20,
-          "startTime": 111.36,
-          "endTime": 116.88,
-          "textEn": "Daddy Pig, do you know where you're going?",
+          "startTime": 108.56,
+          "endTime": 114.32,
+          "textEn": "This way. Daddy Pig, do you know where you're going?",
           "textKo": null,
           "sourceType": "captions"
         },
