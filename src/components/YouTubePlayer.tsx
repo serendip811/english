@@ -2,9 +2,11 @@ import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import type { PlayerCommand, PlayerCommandInput } from "../lib/types";
 import { startSegmentLoopMonitor } from "../lib/playerLoop";
 import {
+  choosePlaybackTransport,
   createCueOptions,
   createLoadOptions,
-  shouldReuseLoadedVideo
+  shouldReuseLoadedVideo,
+  YOUTUBE_PLAYER_STATE
 } from "../lib/youtubeTransport";
 
 declare global {
@@ -78,6 +80,7 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
   const appliedSequenceRef = useRef(-1);
   const stopMonitorRef = useRef<(() => void) | null>(null);
   const activeVideoIdRef = useRef<string | null>(null);
+  const playerStateRef = useRef<number>(YOUTUBE_PLAYER_STATE.UNSTARTED);
 
   useEffect(() => {
     let isMounted = true;
@@ -101,6 +104,9 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
             activeVideoIdRef.current = initialVideoId;
             applyPendingCommand();
           },
+          onStateChange: (event: { data: number }) => {
+            playerStateRef.current = event.data;
+          },
           onError: (event: { data: number }) => {
             onPlayerError(event.data);
           }
@@ -113,6 +119,7 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
       clearPlaybackTimer();
       readyRef.current = false;
       activeVideoIdRef.current = null;
+      playerStateRef.current = YOUTUBE_PLAYER_STATE.UNSTARTED;
       if (playerRef.current?.destroy) {
         playerRef.current.destroy();
       }
@@ -159,7 +166,13 @@ export const YouTubePlayer = forwardRef<YouTubePlayerHandle, YouTubePlayerProps>
       ? Math.max(loopStart + 0.05, commandToRun.endTime)
       : loopStart + 0.05;
 
-    if (isCurrentVideo(commandToRun.videoId)) {
+    if (
+      choosePlaybackTransport(
+        activeVideoIdRef.current,
+        commandToRun.videoId,
+        playerStateRef.current
+      ) === "seek"
+    ) {
       player.seekTo(loopStart, true);
       player.playVideo();
     } else {

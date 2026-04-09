@@ -147,3 +147,4 @@
 - Reused the already loaded YouTube iframe video for same-lesson sentence jumps on mobile Safari instead of reloading it with `loadVideoById` on every command.
 - Switched iframe `cueVideoById` and `loadVideoById` calls to documented object payloads instead of passing the legacy quality argument that could trigger embed error 2 on mobile.
 - Simplified iframe bootstrap on mobile by creating the player with the current lesson `videoId` up front and removing extra constructor parameters that were not needed for `YT.Player`.
+- Route same-video playback by current YouTube player state so Safari can use `loadVideoById` from `cued/unstarted` states while still using fast `seekTo` jumps during active playback.

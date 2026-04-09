@@ -1,5 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { createCueOptions, createLoadOptions, shouldReuseLoadedVideo } from "./youtubeTransport";
+import {
+  createCueOptions,
+  createLoadOptions,
+  choosePlaybackTransport,
+  shouldReuseLoadedVideo,
+  YOUTUBE_PLAYER_STATE
+} from "./youtubeTransport";
 
 describe("shouldReuseLoadedVideo", () => {
   it("reuses the current iframe when the same lesson video stays active", () => {
@@ -28,5 +34,24 @@ describe("YouTube queue option helpers", () => {
       videoId: "tfuEUuvk8Qs",
       startSeconds: 12.4
     });
+  });
+});
+
+describe("choosePlaybackTransport", () => {
+  it("loads when the lesson switches to a new video", () => {
+    expect(choosePlaybackTransport("aaa", "bbb", YOUTUBE_PLAYER_STATE.PLAYING)).toBe("load");
+  });
+
+  it("loads when the same video is still only cued", () => {
+    expect(choosePlaybackTransport("aaa", "aaa", YOUTUBE_PLAYER_STATE.CUED)).toBe("load");
+  });
+
+  it("loads when the same video is still unstarted", () => {
+    expect(choosePlaybackTransport("aaa", "aaa", YOUTUBE_PLAYER_STATE.UNSTARTED)).toBe("load");
+  });
+
+  it("seeks when the same video is already in an active playback lifecycle", () => {
+    expect(choosePlaybackTransport("aaa", "aaa", YOUTUBE_PLAYER_STATE.PLAYING)).toBe("seek");
+    expect(choosePlaybackTransport("aaa", "aaa", YOUTUBE_PLAYER_STATE.PAUSED)).toBe("seek");
   });
 });

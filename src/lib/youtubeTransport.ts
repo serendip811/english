@@ -5,6 +5,17 @@ export function shouldReuseLoadedVideo(
   return Boolean(activeVideoId && activeVideoId === nextVideoId);
 }
 
+export const YOUTUBE_PLAYER_STATE = {
+  UNSTARTED: -1,
+  ENDED: 0,
+  PLAYING: 1,
+  PAUSED: 2,
+  BUFFERING: 3,
+  CUED: 5
+} as const;
+
+export type YouTubePlaybackTransport = "seek" | "load";
+
 export interface YouTubeQueueOptions {
   videoId: string;
   startSeconds: number;
@@ -30,4 +41,23 @@ export function createLoadOptions(videoId: string, startTime: number): YouTubeQu
     videoId,
     startSeconds: normalizeStartSeconds(startTime)
   };
+}
+
+export function choosePlaybackTransport(
+  activeVideoId: string | null | undefined,
+  nextVideoId: string,
+  playerState: number | null | undefined
+): YouTubePlaybackTransport {
+  if (!shouldReuseLoadedVideo(activeVideoId, nextVideoId)) {
+    return "load";
+  }
+
+  if (
+    playerState === YOUTUBE_PLAYER_STATE.UNSTARTED ||
+    playerState === YOUTUBE_PLAYER_STATE.CUED
+  ) {
+    return "load";
+  }
+
+  return "seek";
 }
